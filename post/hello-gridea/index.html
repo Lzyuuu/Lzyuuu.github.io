@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>Hello Gridea | Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1593955973724">
+<link rel="shortcut icon" href="/favicon.ico?v=1593958947899">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -660,7 +660,7 @@
   
   
   <div class="bg-img">
-    <img src="/media/images/custom-bgImg.png" />
+    <img src="/media/images/custom-bgImg.jpg" />
   </div>
   
   
@@ -1181,44 +1181,8 @@
   
   
   
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
-  <div class="aplayer" id="aplayer"></div>
-  <script>
-  let musics = JSON.parse('[{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/06/f5901d013aa7c3b5496c8faf7e41deaa-800x565.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/pf/p015_mizuki.mp3","musicName":"海月より旅立つ蝶"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/03/9d68c2dd4c7518bbf3af4adb4581affc-372x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/oche/o005_yadori.mp3","musicName":"朝顔ノ宿木"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/03/d46b31367e0c7c2a4caf030fc2575618-450x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/m/m021_utahime.mp3","musicName":"一人きりの歌姫"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/02/afcf04c205cabf5cab453696478d7001-700x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/m/m017_kimi.mp3","musicName":"君がいた海"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/06/185460c10aed03aa011f1e94ee0478f0-424x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/pf/p008_setsuna.mp3","musicName":"刹那"}]');
-  let mediaMusic = [];
-  for (let i = 0; i < musics.length; i++) {
-    let item = musics[i];
-    mediaMusic.push({
-      name: item.musicName,
-      artist: item.author,
-      url: item.musicLink,
-      lrc: item.lrc,
-      cover: item.cover
-    });
-  }
-
-  const ap = new APlayer({
-      container: document.getElementById('aplayer'),
-      fixed: true,
-      lrcType: 3,
-      listFolded: false,
-      listMaxHeight: 90,
-      audio: mediaMusic
-  });
-  window.addEventListener('load', function() {
-    let postBody = document.querySelector('#post_body');
-    let hs = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-    postBody && hs.forEach(h => {
-      let helems = postBody.querySelectorAll(h);
-      if (helems.length > 0) {
-        helems.forEach(elem => {
-          elem.id = encodeURI(elem.id);
-        })
-      }
-    })
-  })
-  </script>
+  <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://player.lmih.cn/player/js/player.js" id="myhk" key="demo" m="1"></script>
 
 
   
@@ -1967,6 +1931,13 @@
 
 </script>
 <script src="/media/js/motion.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script>
+  var scroll = new SmoothScroll('a[href*="#"]', {
+    speed: 200
+  });
+</script>
 
 
 
