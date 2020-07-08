@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1594211518691">
+<link rel="shortcut icon" href="/favicon.ico?v=1594212078787">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -71,6 +71,8 @@
           
             
             
+              
+            
             <li class="nav-item ">
               
               
@@ -81,6 +83,8 @@
             </li>
           
             
+            
+              
             
             <li class="nav-item ">
               
@@ -93,6 +97,8 @@
           
             
             
+              
+            
             <li class="nav-item nav-item-active">
               
               
@@ -104,6 +110,8 @@
           
             
             
+              
+            
             <li class="nav-item ">
               
               
@@ -113,6 +121,16 @@
               
             </li>
           
+          
+            
+              <li class="nav-item ">
+                <a href="/friends/" target="_self">
+                  
+                    <i class="fa fa-address-book"></i> 友情链接
+                  
+                </a>
+              </li>
+            
           
           
             <li id="fa_search" class="nav-item">
@@ -210,8 +228,6 @@
         
       </div>
     </div>
-  
-
   
 
 
@@ -343,6 +359,32 @@
   <div id="landlord" style="left: 60px;bottom: px;"
     data-key="">
     <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    
+
+      <div class="message" style="opacity:0"></div>
+      <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+          <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off"
+            placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+          <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off"
+            placeholder="要和我聊什么呀？" />
+          <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+      </div>
+      <input name="live_talk" id="live_talk" value="1" type="hidden" />
+      <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input id="duType" value="douqilai" type="hidden">
+        
+      </div>
     
   </div>
 </div>
@@ -857,7 +899,7 @@
   <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
   <div class="aplayer" id="aplayer"></div>
   <script>
-  let musics = JSON.parse('[{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/06/f5901d013aa7c3b5496c8faf7e41deaa-800x565.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/pf/p015_mizuki.mp3","musicName":"海月より旅立つ蝶"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/03/9d68c2dd4c7518bbf3af4adb4581affc-372x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/oche/o005_yadori.mp3","musicName":"朝顔ノ宿木"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/03/d46b31367e0c7c2a4caf030fc2575618-450x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/m/m021_utahime.mp3","musicName":"一人きりの歌姫"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/02/afcf04c205cabf5cab453696478d7001-700x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/m/m017_kimi.mp3","musicName":"君がいた海"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/06/185460c10aed03aa011f1e94ee0478f0-424x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/pf/p008_setsuna.mp3","musicName":"刹那"}]');
+  let musics = JSON.parse('[{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/06/f5901d013aa7c3b5496c8faf7e41deaa-800x565.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/pf/p015_mizuki.mp3","musicName":"海月より旅立つ蝶"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/03/9d68c2dd4c7518bbf3af4adb4581affc-372x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/oche/o005_yadori.mp3","musicName":"朝顔ノ宿木"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/03/d46b31367e0c7c2a4caf030fc2575618-450x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/m/m021_utahime.mp3","musicName":"一人きりの歌姫"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/02/afcf04c205cabf5cab453696478d7001-700x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/m/m017_kimi.mp3","musicName":"君がいた海"},{"author":"癒し系音楽の素材","cover":"https://static.acgsoso.com/uploads/2020/06/185460c10aed03aa011f1e94ee0478f0-424x600.jpg","lrc":"","musicLink":"http://www.aoitorinouta.com/sozai/mp3/pf/p008_setsuna.mp3","musicName":"刹那"},{"author":"甘茶の音楽工房","cover":"http://img.duoym.com/wp-content/uploads/2020/06/QQ浏览器截图20200625001319.jpg","lrc":"","musicLink":"http://amachamusic.chagasi.com/mp3/minamijujisei.mp3","musicName":"南十字星"}]');
   let mediaMusic = [];
   for (let i = 0; i < musics.length; i++) {
     let item = musics[i];
