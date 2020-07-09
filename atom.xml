@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzyuuu.github.io</id>
     <title>Zhaoyu的博客</title>
-    <updated>2020-07-09T04:41:27.081Z</updated>
+    <updated>2020-07-09T04:45:43.226Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzyuuu.github.io"/>
     <link rel="self" href="https://lzyuuu.github.io/atom.xml"/>
@@ -16,7 +16,11 @@
         <link href="https://lzyuuu.github.io/post/ji-suan-ji-zu-cheng-yuan-li-yi/">
         </link>
         <updated>2020-07-09T04:38:46.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="第三章-系统总线">第三章 系统总线</h1>
+        <summary type="html"><![CDATA[<p>计算机组成原理课程笔记，主讲学校为哈工大计算机学院</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>计算机组成原理课程笔记，主讲学校为哈工大计算机学院</p>
+<!-- more -->
+<h1 id="第三章-系统总线">第三章 系统总线</h1>
 <h2 id="31-总线的基本概念">3.1 总线的基本概念</h2>
 <p>如果每个模块之间都用一根线两两连接，那么会带来极高的成本和极低的效率，因此引入了总线的概念。</p>
 <p>总线是连接各个部件的信息传输线，是各个部件共享的传输介质。总线上信息的传输可以分为串行和并行两种方式。</p>
