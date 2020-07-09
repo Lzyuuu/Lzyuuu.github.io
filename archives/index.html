@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1594213378079">
+<link rel="shortcut icon" href="/favicon.ico?v=1594269685747">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -196,19 +196,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">1</span>
+        <span class="site-item-stat-count">2</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">1</span>
+        <span class="site-item-stat-count">2</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">1</span>
+        <span class="site-item-stat-count">2</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -257,9 +257,27 @@
   <div class="archive-timeline-box">
     <div class="archive-timeline-title">
       
-        <h2 class="language" data-lan="archives" data-count="1">非常好！目前共计1篇日志，继续努力！</h2>
+        <h2 class="language" data-lan="archives" data-count="2">非常好！目前共计2篇日志，继续努力！</h2>
       
     </div>
+    
+      
+      
+        <div class="node-title">
+          <h2 class="tag-year">2020</h2>
+        </div>    
+        
+      
+      <a href="https://lzyuuu.github.io/post/ji-suan-ji-zu-cheng-yuan-li-yi/">
+        <div class="motion-warpper tag-archive-node">
+          <div class="tag-node">
+            <h1>
+              07-09
+              <small>计算机组成原理 （一）</small>
+            </h1>
+          </div>  
+      </div>
+      </a>
     
       
       
@@ -337,6 +355,32 @@
   <div id="landlord" style="left: 1230px;bottom: px;"
     data-key="">
     <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    
+
+      <div class="message" style="opacity:0"></div>
+      <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+          <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off"
+            placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+          <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off"
+            placeholder="要和我聊什么呀？" />
+          <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+      </div>
+      <input name="live_talk" id="live_talk" value="1" type="hidden" />
+      <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input id="duType" value="douqilai" type="hidden">
+        
+      </div>
     
   </div>
 </div>
@@ -1065,6 +1109,121 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/ji-suan-ji-zu-cheng-yuan-li-yi/"" data-c="
+          &lt;h1 id=&#34;第三章-系统总线&#34;&gt;第三章 系统总线&lt;/h1&gt;
+&lt;h2 id=&#34;31-总线的基本概念&#34;&gt;3.1 总线的基本概念&lt;/h2&gt;
+&lt;p&gt;如果每个模块之间都用一根线两两连接，那么会带来极高的成本和极低的效率，因此引入了总线的概念。&lt;/p&gt;
+&lt;p&gt;总线是连接各个部件的信息传输线，是各个部件共享的传输介质。总线上信息的传输可以分为串行和并行两种方式。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;单总线结构&lt;/p&gt;
+&lt;p&gt;主存——CPU——I/O设备&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;双总线结构&lt;/p&gt;
+&lt;p&gt;主存——M总线——CPU——I/O总线——IO设备&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;以存储器为中心的双总线结构&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;32-总线的分类&#34;&gt;3.2 总线的分类&lt;/h2&gt;
+&lt;p&gt;片内总线：芯片内部的总线&lt;/p&gt;
+&lt;p&gt;系统总线：计算机各部件之间的信息传输线&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数据总线：双向（与机器字长、存储字长有关）&lt;/li&gt;
+&lt;li&gt;地址总线：单向（与存储地址、IO地址有关）&lt;/li&gt;
+&lt;li&gt;控制总线：有出有入（存储器读写、总线允许请求、中断）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通信总线：计算机系统之间的通信（串行、并行）&lt;/p&gt;
+&lt;h2 id=&#34;33-总线特性及性能指标&#34;&gt;3.3 总线特性及性能指标&lt;/h2&gt;
+&lt;p&gt;总线特性&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;机械特性：尺寸、形状、管脚数、排列顺序&lt;/li&gt;
+&lt;li&gt;电气特性：传输方向和有效电平范围&lt;/li&gt;
+&lt;li&gt;功能特性：每根传输线的功能（地址、数据、控制）&lt;/li&gt;
+&lt;li&gt;时间特性：时序关系&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;性能指标&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;总线宽度：数据线的根数&lt;/li&gt;
+&lt;li&gt;标准传输率：每秒传输的最大字节数（MBps）&lt;/li&gt;
+&lt;li&gt;时钟同步/异步：同步、不同步&lt;/li&gt;
+&lt;li&gt;总线复用：地址线与数据线复用（复用可减少芯片管脚数）&lt;/li&gt;
+&lt;li&gt;信号线数：地址线、数据线和控制线的总和&lt;/li&gt;
+&lt;li&gt;总线控制方式：突发、自动、仲裁、逻辑、计数&lt;/li&gt;
+&lt;li&gt;其他指标：负载能力&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;总线标准&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;总线标准&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;数据线&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;总线时钟&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;带宽&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;ISA&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;16&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;8MHz（独立）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;16MBps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;EISA&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;8MHz（独立）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;33MBps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;VESA&lt;br /&gt;（VL-BUS）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;32MHz&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;132MBps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;PCI&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;32&lt;br /&gt;64&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;33MHz（独立）&lt;br /&gt;66MHz（独立）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;132MBps&lt;br /&gt;528MBps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;RS-232&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;66.7MHz（独立）&lt;br /&gt;133MHz（独立）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;266MBps&lt;br /&gt;533MBps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;RS-232&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;串行通信总线标准&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;USB&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;串行接口总线标准&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;普通无屏蔽双绞线&lt;br /&gt;带屏蔽双绞线&lt;br /&gt;最高&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.5Mbps&lt;br /&gt;12Mbps&lt;br /&gt;480Mbps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;34-总线结构&#34;&gt;3.4 总线结构&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;单总线结构&lt;/li&gt;
+&lt;li&gt;多总线结构
+&lt;ol&gt;
+&lt;li&gt;双总线结构&lt;/li&gt;
+&lt;li&gt;三总线结构&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;35-总线控制&#34;&gt;3.5 总线控制&lt;/h2&gt;
+">计算机组成原理 （一）</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/about/"" data-c="
