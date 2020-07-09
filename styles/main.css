@@ -2143,23 +2143,23 @@ p > code {
       color: #fff;
       border-bottom-color: #fff;
     }.active-current > a {
-      color: #fc6423 !important;
-      border-bottom-color: #fc6423 !important;
+      color: #343a40 !important;
+      border-bottom-color: #343a40 !important;
     }
     .sidebar-title-active {
-      color: #fc6423 !important;
-      border-bottom-color: #fc6423 !important;
+      color: #343a40;
+      border-bottom-color: #343a40;
     }
     .sidebar-title-item:hover {
-      color: #fc6423 !important;
+      color: #343a40 !important;
     }
     .active-show > a {
-      color: #fc6423;
-      border-bottom-color: #fc6423;
+      color: #343a40;
+      border-bottom-color: #343a40;
     }
     .active-hidden > a {
-      color: #fc6423;
-      border-bottom-color: #fc6423;
+      color: #343a40;
+      border-bottom-color: #343a40;
     }.bg-color {
       background-color: #ffffffe5;
     }
@@ -2183,8 +2183,6 @@ p > code {
     }
     .mist .site-title i {
       background: #FFFFFFe5;
-    }.box-shadow-wrapper {
-      padding: 10px;
     }.box-shadow-wrapper {
       box-shadow: none !important;
     }body {
