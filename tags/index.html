@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1594305025543">
+<link rel="shortcut icon" href="/favicon.ico?v=1595506586656">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1077,6 +1077,126 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/tong-su-yi-dong-jie-shi-han-ming-ma/"" data-c="
+          &lt;p&gt;汉明码（Hamming Code），是在电信领域的一种线性调试码，以发明者理查德·卫斯里·汉明的名字命名。汉明码在传输的消息流中插入验证码，当计算机存储或移动数据时，可能会产生数据位错误，以侦测并更正单一比特错误。本文将尽可能使用通俗易懂的语言对汉明码进行解释和说明。另外，本文参考了&lt;a href=&#34;https://blog.csdn.net/Yonggie/article/details/83186280&#34; title=&#34;说人话，人话！！ 汉明码（海明码、hamming code）通俗易懂的解释，说人话！！！！&#34;&gt;这篇文章&lt;/a&gt;，非常感谢这位大神的解释和启发。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+&lt;p&gt;为了方便对文中的某些概念有更加深刻的理解，在解释汉明码的编码规则之前，请允许我先简单解释一下奇偶校验码这一概念，这里引入了百度百科关于奇偶校验码的描述。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;奇偶校验码是一种增加二进制传输系统最小距离的简单和广泛采用的方法。是一种通过增加冗余位使得码字中&amp;quot;1&amp;quot;的个数恒为奇数或偶数的编码方法，它是一种检错码。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;由上述描述，我们可以知道，奇偶校验码在原信息位上额外增加了一位奇偶校验位，从而使编码中1的个数恒定为奇数或偶数，当产生奇数位错误时，码字的奇偶校验性将会发生改变，因此我们就能检查出码字出现错误。但这种编码方式仅能发现奇数位错误，同时无法进行纠错。&lt;/p&gt;
+&lt;h3 id=&#34;纠错原理&#34;&gt;纠错原理&lt;/h3&gt;
+&lt;p&gt;首先，我们需要知道汉明码的核心思想是假设数据仅错一位。那么假设现在有一个七位的数据需要传输，那么我们可以先把这七位数据进行分组，具体分组如下图所示：&lt;/p&gt;
+&lt;img src=&#34;https://bkimg.cdn.bcebos.com/pic/267f9e2f070828387b8f5870bc99a9014d08f1d0?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1&#34; alt=&#34;img&#34;  /&gt;
+&lt;img src=&#34;https://img-blog.csdn.net/2018101918274621?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1lvbmdnaWU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70&#34; alt=&#34;img&#34; style=&#34;zoom: 50%;&#34; /&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P1&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P2&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P3&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1、2、3、4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2、4、5、7&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3、4、6、7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;因此对于p1、p2、p3、d1、d2、d3、d4来说，每个小块中都只对应一位数字，因此我们可以分别判断三组是否出现错误，从而定位该错误发生在哪一位上，下面举个简单的例子。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;假如说P1组发生了错误，而P2、P3组均为正确，那么可以定位为1发生了错误。&lt;/li&gt;
+&lt;li&gt;假如说P1组和P2组同时发生了错误，P3组是正确的，那么可以定位为2发生了错误。&lt;/li&gt;
+&lt;li&gt;假如说P1、P2、P3组均发生了错误，那么可以定位为4发生了错误。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以，我们可以发现，当分组合理时，通过对各组码字进行奇偶校验，就可以准确发现错误及定位错误码字从而实现纠错。&lt;/p&gt;
+&lt;h3 id=&#34;编码规则&#34;&gt;编码规则&lt;/h3&gt;
+&lt;p&gt;由上述例子，我们可以发现，汉明码正是利用了不同分组的奇偶校验性来进行纠错，所以如何进行分组就是汉明码的一个核心问题。我们先引入百度百科上关于汉明码奇偶校验位的位置分配表，现在看不懂没关系，解释完就很清晰了。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://bkimg.cdn.bcebos.com/pic/aa64034f78f0f736eb20d6650e55b319eac413f3?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;汉明码的编码规则是，一串码字中所有2的i次幂位置均为奇偶校验码，同时该校验码需要使校验码所在组的1的个数为偶数。因此，我们可以简单列一下奇偶校验码的位置：1、2、4、8、16、32等。&lt;/p&gt;
+&lt;p&gt;由于我们知道，在二进制数中，2的i次幂可以写成0001、0010、0100、1000等形式，因此所有校验位覆盖了数据位置和该校验位位置的二进制与的值不为0的数。&lt;/p&gt;
+&lt;p&gt;还是不好理解是吗？通俗一点来说就是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;凡是位置符合这种形式的，XXX1，归到P1；&lt;/li&gt;
+&lt;li&gt;凡是位置符合这种形式的，XX1X，归到P2；&lt;/li&gt;
+&lt;li&gt;凡是位置符合这种形式的，X1XX，归到P3；&lt;/li&gt;
+&lt;li&gt;凡是位置符合这种形式的，1XXX，归到P4；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如此类推。现在再回头看看位置分配表，是不是就很好理解了，我们可以很神奇的发现，每一个奇偶校验位，仅会出现在单个组里，因此每个奇偶校验位仅完成单个组的奇偶校验。&lt;/p&gt;
+&lt;p&gt;为了增强理解，我们使用一个真实的例子来进行说明。假如目前我们需要传的码字为1011010，那么我们可以把奇偶校验位根据位置进行占位，得到新的码字XX1X011X010，其中X为奇偶校验位。那么根据分组，我们可以分为四组，分别是：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P1&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P2&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P3&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P4&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;X10100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;X11110&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;X011&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;X010&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;那么，为了满足各组的1的数量均为偶数，那么就可以确定奇偶校验位的准确码字了。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P1&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P2&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P3&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;P4&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;010100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;011110&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0011&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1010&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;译码和纠错&#34;&gt;译码和纠错&lt;/h3&gt;
+&lt;p&gt;上述过程完成了编码的步骤，那么汉明码是怎么进行译码的呢，译码是编码的逆过程，我们在得到一串汉明码后，可以进行如下操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以按照上述理论先对其进行分组。&lt;/li&gt;
+&lt;li&gt;在得到分组后，分别对每个组进行奇偶校验，正确为0，错误为1。&lt;/li&gt;
+&lt;li&gt;根据每个组的奇偶校验结果定位错误码元并纠错。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;假如获得的汉明码，经过分组和奇偶校验得到如下结果：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;P5&lt;/th&gt;
+&lt;th&gt;P4&lt;/th&gt;
+&lt;th&gt;P3&lt;/th&gt;
+&lt;th&gt;P2&lt;/th&gt;
+&lt;th&gt;P1&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;那么错误的位置就是10101位置，换算为十进制就是21位发生了错误。&lt;/p&gt;
+">通俗易懂解释汉明码</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/svm-in-primal-suan-fa/"" data-c="
