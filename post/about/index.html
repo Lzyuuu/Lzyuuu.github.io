@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>关于 | Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1595508793534">
+<link rel="shortcut icon" href="/favicon.ico?v=1595509737820">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1609,8 +1609,9 @@
 &lt;p&gt;由上述描述，我们可以知道，奇偶校验码在原信息位上额外增加了一位奇偶校验位，从而使编码中1的个数恒定为奇数或偶数，当产生奇数位错误时，码字的奇偶校验性将会发生改变，因此我们就能检查出码字出现错误。但这种编码方式仅能发现奇数位错误，同时无法进行纠错。&lt;/p&gt;
 &lt;h3 id=&#34;纠错原理&#34;&gt;纠错原理&lt;/h3&gt;
 &lt;p&gt;首先，我们需要知道汉明码的核心思想是假设数据仅错一位。那么假设现在有一个七位的数据需要传输，那么我们可以先把这七位数据进行分组，具体分组如下图所示：&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://bkimg.cdn.bcebos.com/pic/267f9e2f070828387b8f5870bc99a9014d08f1d0?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U3Mg==,g_7,xp_5,yp_5&#34; alt=&#34;image&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://img-blog.csdn.net/2018101918274621?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1lvbmdnaWU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70&#34; alt=&#34;image&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://bkimg.cdn.bcebos.com/pic/267f9e2f070828387b8f5870bc99a9014d08f1d0?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U3Mg==,g_7,xp_5,yp_5&#34; alt=&#34;&#34; width=&#34;300&#34; height=&#34;300&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;img src=&#34;https://bkimg.cdn.bcebos.com/pic/267f9e2f070828387b8f5870bc99a9014d08f1d0?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U3Mg==,g_7,xp_5,yp_5&#34; width=&#34;300&#34; height=&#34;300&#34; /&gt;
+&lt;img src=&#34;https://img-blog.csdn.net/2018101918274621?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1lvbmdnaWU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70&#34; width=&#34;400&#34; height=&#34;400&#34; /&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1636,7 +1637,7 @@
 &lt;p&gt;所以，我们可以发现，当分组合理时，通过对各组码字进行奇偶校验，就可以准确发现错误及定位错误码字从而实现纠错。&lt;/p&gt;
 &lt;h3 id=&#34;编码规则&#34;&gt;编码规则&lt;/h3&gt;
 &lt;p&gt;由上述例子，我们可以发现，汉明码正是利用了不同分组的奇偶校验性来进行纠错，所以如何进行分组就是汉明码的一个核心问题。我们先引入百度百科上关于汉明码奇偶校验位的位置分配表，现在看不懂没关系，解释完就很清晰了。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://bkimg.cdn.bcebos.com/pic/aa64034f78f0f736eb20d6650e55b319eac413f3?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5&#34; alt=&#34;image&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;img src=&#34;https://bkimg.cdn.bcebos.com/pic/aa64034f78f0f736eb20d6650e55b319eac413f3?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5&#34; &gt;
 &lt;p&gt;汉明码的编码规则是，一串码字中所有2的i次幂位置均为奇偶校验码，同时该校验码需要使校验码所在组的1的个数为偶数。因此，我们可以简单列一下奇偶校验码的位置：1、2、4、8、16、32等。&lt;/p&gt;
 &lt;p&gt;由于我们知道，在二进制数中，2的i次幂可以写成0001、0010、0100、1000等形式，因此所有校验位覆盖了数据位置和该校验位位置的二进制与的值不为0的数。&lt;/p&gt;
 &lt;p&gt;还是不好理解是吗？通俗一点来说就是：&lt;/p&gt;
