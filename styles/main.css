@@ -2183,6 +2183,8 @@ p > code {
     }
     .mist .site-title i {
       background: #FFFFFFe5;
+    }.box-scale > #landlord {
+      transform: scale(0.5);
     }.box-shadow-wrapper {
       box-shadow: none !important;
     }body {
