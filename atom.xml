@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzyuuu.github.io</id>
     <title>Zhaoyu的博客</title>
-    <updated>2020-07-24T13:47:57.234Z</updated>
+    <updated>2020-07-24T13:54:54.822Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzyuuu.github.io"/>
     <link rel="self" href="https://lzyuuu.github.io/atom.xml"/>
@@ -16,7 +16,11 @@
         <link href="https://lzyuuu.github.io/post/svm-in-primal-suan-fa/">
         </link>
         <updated>2020-07-24T13:19:39.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-概述">1、概述</h2>
+        <summary type="html"><![CDATA[<p>支持向量机（Support Vector Machine, SVM）是一类按监督学习（supervised learning）方式对数据进行二元分类的广义线性分类器（generalized linear classifier），其决策边界是对学习样本求解的最大边距超平面（maximum-margin hyperplane）。SVM可以通过核方法（kernel method）进行非线性分类，是常见的核学习（kernel learning）方法之一，在人像识别、文本分类等模式识别（pattern recognition）问题中有得到广泛应用。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>支持向量机（Support Vector Machine, SVM）是一类按监督学习（supervised learning）方式对数据进行二元分类的广义线性分类器（generalized linear classifier），其决策边界是对学习样本求解的最大边距超平面（maximum-margin hyperplane）。SVM可以通过核方法（kernel method）进行非线性分类，是常见的核学习（kernel learning）方法之一，在人像识别、文本分类等模式识别（pattern recognition）问题中有得到广泛应用。</p>
+<!-- more -->
+<h2 id="1-概述">1、概述</h2>
 <h3 id="p300信号详细信息">P300信号详细信息：</h3>
 <p>EEG信号：（Sample，Channels，Epochs，Trials）=（358，32，120，18）</p>
 <table>
