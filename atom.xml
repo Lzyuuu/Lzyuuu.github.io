@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzyuuu.github.io</id>
     <title>Zhaoyu的博客</title>
-    <updated>2020-07-24T14:20:30.766Z</updated>
+    <updated>2020-07-27T14:03:31.430Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzyuuu.github.io"/>
     <link rel="self" href="https://lzyuuu.github.io/atom.xml"/>
@@ -10,6 +10,147 @@
     <logo>https://lzyuuu.github.io/images/avatar.png</logo>
     <icon>https://lzyuuu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Zhaoyu的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[如何闭着眼睛写对二分搜索]]></title>
+        <id>https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/</id>
+        <link href="https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/">
+        </link>
+        <updated>2020-07-27T14:01:32.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>本文参考自《labuladong的算法小抄》</p>
+</blockquote>
+<p>二分查找并不简单，Knuth 大佬（发明 KMP 算法的那位）都说二分查找：<strong>思路很简单，细节是魔鬼</strong>。很多人喜欢拿整型溢出的 bug 说事儿，但是二分查找真正的坑根本就不是那个细节问题，而是在于到底要给 <code>mid</code> 加一还是减一，while 里到底用<code>&lt;=</code>还是<code>&lt;</code> 。本文就来探究几个最常用的二分查找场景：寻找一个数、寻找左侧边界、寻找右侧边界。而且，我们就是要深入细节，比如不等号是否应该带等号，mid 是否应该加一等等。分析这些细节的差异以及出现这些差异的原因，保证你能灵活准确地写出正确的二分查找算法。</p>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>本文参考自《labuladong的算法小抄》</p>
+</blockquote>
+<p>二分查找并不简单，Knuth 大佬（发明 KMP 算法的那位）都说二分查找：<strong>思路很简单，细节是魔鬼</strong>。很多人喜欢拿整型溢出的 bug 说事儿，但是二分查找真正的坑根本就不是那个细节问题，而是在于到底要给 <code>mid</code> 加一还是减一，while 里到底用<code>&lt;=</code>还是<code>&lt;</code> 。本文就来探究几个最常用的二分查找场景：寻找一个数、寻找左侧边界、寻找右侧边界。而且，我们就是要深入细节，比如不等号是否应该带等号，mid 是否应该加一等等。分析这些细节的差异以及出现这些差异的原因，保证你能灵活准确地写出正确的二分查找算法。</p>
+<!-- more -->
+<h2 id="二分查找框架">二分查找框架</h2>
+<pre><code class="language-python">def binarySearch(nums: List[int], target: int) -&gt; int:
+    left, right = 0, ...
+    while ... :
+        mid = left + (right - left) / 2
+        if nums[mid] == target:
+            # ...
+        elif nums[mid] &lt; target:
+            # left = ...
+        elif nums[mid] &gt; target:
+            # right = ...
+    return ...
+</code></pre>
+<p><strong>分析二分查找的一个技巧是：不要出现 else，而是把所有情况用 else if 写清楚，这样可以清楚地展现所有细节。</strong></p>
+<p>其中 <code>...</code> 标记的部分，就是可能出现细节问题的地方，当你见到一个二分查找的代码时，首先注意这几个地方。后文用实例分析这些地方能有什么样的变化。另外声明一下，计算 mid 时需要防止溢出，代码中 <code>left + (right - left) / 2</code> 就和 <code>(left + right) / 2</code> 的结果相同，但是有效防止了 <code>left</code> 和 <code>right</code> 太大直接相加导致溢出。</p>
+<h2 id="寻找一个数基本二分搜索">寻找一个数（基本二分搜索）</h2>
+<p>最简单的场景，在区间内搜索一个数，如果存在返回其索引，否则返回-1。</p>
+<pre><code class="language-python">def binarySearch(nums: List[int], target: int) -&gt; int:
+    left, right = 0, len(nums) - 1	# 注意
+    while left &lt;= right:
+        mid = left + (right - left) // 2
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] &lt; target:
+            left = mid + 1
+        elif nums[mid] &gt; target:
+            right = mid - 1
+    return -1
+</code></pre>
+<p><strong>0、如何判断搜索区间是左闭右开还是左闭右闭？</strong></p>
+<p>答：从<code>left</code>和<code>right</code>的初始化就能判断搜索区间的形式，如果<code>right</code>的初始值是<code>len(nums) - 1</code>，也就意味着<code>right</code>初始值代表的是最后一个元素的索引，因此搜索区间是左闭右闭<code>[left, right]</code>的，该区间完全是由数组索引所限定的，取值也无法超出数组索引。</p>
+<p>如果<code>right</code>的初始值是<code>len(nums)</code>，那么就意味着搜索区间变成<code>[left, right)</code>，也就是左闭右开，因为此时<code>right = len(nums)</code>是越界的</p>
+<p><strong>1、为什么 while 循环的条件中是 <code>&lt;=</code>，而不是 <code>&lt;</code></strong>？</p>
+<p>答：以上算法在什么时候需要停止搜索？两种停止条件，第一种是找到了目标值：</p>
+<pre><code class="language-python">if nums[mid] == target:
+    return mid
+</code></pre>
+<p>第二种是找不到目标值，这时候需要while循环终止，然后返回-1。那么这里问题就在于while循环的终止条件是什么？容易知道，当搜索区间为空时应该终止。那么终止条件到底是<code>left &lt;= right</code>还是<code>left &lt; right</code>呢？我们分开来考虑。首先，我们已经知道上述代码的搜索区间是左闭右闭区间。</p>
+<p>当终止条件为<code>while left &lt;= right</code>时，<code>left == right + 1</code>时while停止循环，此时的区间为<code>[right+1, right]</code>，代入一个具体的数字则是<code>[3, 2]</code>，这时候区间是空的，因此循环终止条件是正确的。</p>
+<p>当终止条件为<code>while left &lt; right</code>时，<code>left == right</code>时while停止循环，那么此时的区间为<code>[right, right]</code>，代入具体数字则是<code>[2, 2]</code>，那么可以发现区间非空，2这个数还没进行判断就已经停止循环了，因此循环终止条件是错误的。</p>
+<p><strong>2、为什么 <code>left = mid + 1</code>，<code>right = mid - 1</code>？我看有的代码是 <code>right = mid</code> 或者 <code>left = mid</code>，没有这些加加减减，到底怎么回事，怎么判断？</strong></p>
+<p>答：这也是二分查找的一个难点，不过只要你能理解前面的内容，就能够很容易判断。</p>
+<p>刚才明确了「搜索区间」这个概念，而且本算法的搜索区间是两端都闭的，即 <code>[left, right]</code>。那么当我们发现索引 <code>mid</code> 不是要找的 <code>target</code> 时，下一步应该去搜索哪里呢？</p>
+<p>当然是去搜索 <code>[left, mid-1]</code> 或者 <code>[mid+1, right]</code> 对不对？因为 <code>mid</code> 已经搜索过，应该从搜索区间中去除。</p>
+<h2 id="寻找左边界的二分搜索">寻找左边界的二分搜索</h2>
+<pre><code class="language-python">def left_bound(nums: list, target: int) -&gt; int:
+  	if not nums:
+        return -1
+    left, right = 0, len(nums)	# 注意
+    while left &lt; right:	  		# 注意
+        mid = left + (right - left) // 2
+        if num[mid] == target:
+            right = mid
+        elif num[mid] &gt; target:
+            right = mid
+        elif num[mid] &lt; target:
+            left = mid + 1		# 注意
+    return left
+</code></pre>
+<p><strong>1、为什么 while 循环的条件中是 <code>&lt;</code>，而不是 <code>&lt;=</code>？为什么 <code>left = mid + 1</code>，<code>right = mid</code>？这和之前的算法不一样？</strong></p>
+<p>答：类似与基本二分搜索法的分析，由于<code>left</code>和<code>right</code>初始值选择的是<code>0</code>和<code>len(nums)</code>，因此搜索区间是左闭右开区间<code>[left, right)</code>，其中<code>while (left &lt; right)</code>循环的终止条件则是<code>left == right</code>，此时搜索区间为<code>[left, left)</code>，即为空，循环条件正确。</p>
+<p>PS. 这里选取左闭右开区间的理由是，对于搜索左右边界的二分查找，使用左闭右开区间的写法较为普遍，因此这里拿这种写法来举例。</p>
+<p>同时由于搜索区间为左闭右开区间，因此当<code>nums[mid]</code>被检测后，将会以<code>mid</code>为中心分割为两个区间，<code>[left, mid)</code>和<code>[mid + 1, right)</code>。因此选取<code>left = mid + 1</code>，<code>right = mid</code>也就不难理解了。</p>
+<p><strong>2、该算法是如何做到搜索左侧边界的？</strong></p>
+<p>答：关键是对于<code>num[mid] == target</code>的情况的处理：</p>
+<pre><code class="language-python">if num[mid] == target:
+	# 搜索左侧边界
+    right = mid
+</code></pre>
+<p>可见，找到 target 时不要立即返回，而是缩小「搜索区间」的上界 <code>right</code>，在区间 <code>[left, mid)</code> 中继续搜索，即不断向左收缩，达到锁定左侧边界的目的。</p>
+<p><strong>3、能不能想办法把<code>right</code> 变成 <code>len(nums) - 1</code>，也就是继续使用两边都闭的「搜索区间」？这样就可以和第一种二分搜索在某种程度上统一起来了。</strong></p>
+<p>答：当然可以，只要你明白了「搜索区间」这个概念，就能有效避免漏掉元素，随便你怎么改都行。下面我们严格根据逻辑来修改，由于需要让搜索区间为左闭右闭，因此<code>right</code>应该初始化为<code>len(nums) - 1</code>，while循环停止条件为<code>left == right + 1</code>，因此应该使用<code>&lt;=</code>。</p>
+<pre><code class="language-python">def left_bound(nums: list, target: int) -&gt; int:
+    left, right = 0, len(nums) - 1
+    while left &lt;= right:
+        mid = left + (right - left) // 2
+</code></pre>
+<p>因为搜索区间是两端都闭的，且现在是搜索左侧边界，所以 <code>left</code> 和 <code>right</code> 的更新逻辑如下：</p>
+<pre><code class="language-python">if nums[mid] &lt; target:
+    left = mid + 1
+elif nums[mid] &gt; target:
+    right = mid - 1
+elif nums[mid] == target:
+    right = mid - 1
+</code></pre>
+<p>由于 while 的退出条件是 <code>left == right + 1</code>，所以当 <code>target</code> 比 <code>nums</code> 中所有元素都大时，会存在以下情况使得索引越界：</p>
+<figure data-type="image" tabindex="1"><img src="https://gblobscdn.gitbook.com/assets%2F-LrtQOWSnDdXhp3kYN4k%2Fsync%2F6865c24b1317f1f65f02348fe622c829c71219c1.jpg" alt="img" loading="lazy"></figure>
+<p>因此，最后返回结果的代码应该检查越界情况：</p>
+<pre><code class="language-python">if left &gt;= len(nums) or nums[left] != target:
+    return -1
+return left
+</code></pre>
+<p>至此，整个算法就写完了，完整代码如下：</p>
+<pre><code class="language-python">def left_bound(nums: list, target: int) -&gt; int:
+    left, right = 0, len(nums) - 1
+    while left &lt;= right:
+        mid = left + (right - left) // 2
+        if nums[mid] &lt; target:
+    		left = mid + 1
+		elif nums[mid] &gt; target:
+            right = mid - 1
+        elif nums[mid] == target:
+            right = mid - 1
+   	if left &gt;= len(nums) or nums[left] != target:
+        return -1
+    return left
+</code></pre>
+<h2 id="寻找右边界的二分搜索">寻找右边界的二分搜索</h2>
+<p>这里类似左边界的二分搜索，我们可以直接写出左闭右闭的完整代码：</p>
+<pre><code class="language-python">def right_bound(nums: list, target: int) -&gt; int:
+    left, right = 0, len(nums) - 1
+    while left &lt;= right:
+        mid = left + (right - left) // 2
+        if nums[mid] &gt; target:
+            right = mid - 1
+        elif nums[mid] &lt; target:
+            left = mid + 1
+        elif nums[mid] == target:
+            left = mid + 1
+    if right &lt; 0 or nums[right] != target:
+        return -1
+    return right
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[SVM in primal 算法]]></title>
         <id>https://lzyuuu.github.io/post/svm-in-primal-suan-fa/</id>
@@ -20,7 +161,7 @@
 ]]></summary>
         <content type="html"><![CDATA[<p>支持向量机（Support Vector Machine, SVM）是一类按监督学习（supervised learning）方式对数据进行二元分类的广义线性分类器（generalized linear classifier），其决策边界是对学习样本求解的最大边距超平面（maximum-margin hyperplane）。SVM可以通过核方法（kernel method）进行非线性分类，是常见的核学习（kernel learning）方法之一，在人像识别、文本分类等模式识别（pattern recognition）问题中有得到广泛应用。</p>
 <!-- more -->
-<h2 id="1-概述">1、概述</h2>
+<h2 id="概述">概述</h2>
 <h3 id="p300信号详细信息">P300信号详细信息：</h3>
 <p>EEG信号：（Sample，Channels，Epochs，Trials）=（358，32，120，18）</p>
 <table>
@@ -54,12 +195,12 @@
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">m</span><span class="mord mathdefault">u</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span><span class="mord">0</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69841em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">u</span><span class="mord mathdefault">n</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord">8</span><span class="mord mathdefault">s</span></span></span></span></span></p>
 <h3 id="算法流程图">算法流程图</h3>
 <figure data-type="image" tabindex="1"><img src="https://lzyuuu.github.io/post-images/1595598255647.png" alt="" loading="lazy"></figure>
-<h2 id="2-特征提取">2、特征提取</h2>
+<h2 id="特征提取">特征提取</h2>
 <p>特征提取流程图</p>
 <figure data-type="image" tabindex="2"><img src="https://lzyuuu.github.io/post-images/1595598317177.png" alt="" loading="lazy"></figure>
 <p>滑动平均窗口：12</p>
 <p>降采样频率：12</p>
-<h2 id="3-svm-in-primal">3、SVM in Primal</h2>
+<h2 id="svm-in-primal">SVM in Primal</h2>
 <p>（1）zscore标准化</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>z</mi><mi>s</mi><mi>c</mi><mi>o</mi><mi>r</mi><mi>e</mi><mo>=</mo><mfrac><mrow><mi>x</mi><mo>−</mo><mi>μ</mi></mrow><msup><mi>σ</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">zscore = \frac{x-\mu}{\sigma^2}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mord mathdefault">s</span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.9463300000000001em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603300000000002em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.740108em;"><span style="top:-2.9890000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">μ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>

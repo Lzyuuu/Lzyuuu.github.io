@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1595600089484">
+<link rel="shortcut icon" href="/favicon.ico?v=1595858604899">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -196,19 +196,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">3</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">5</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">5</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -257,7 +257,7 @@
   <div class="archive-timeline-box">
     <div class="archive-timeline-title">
       
-        <h2 class="language" data-lan="archives" data-count="2">非常好！目前共计2篇日志，继续努力！</h2>
+        <h2 class="language" data-lan="archives" data-count="3">非常好！目前共计3篇日志，继续努力！</h2>
       
     </div>
     
@@ -267,6 +267,19 @@
           <h2 class="tag-year">2020</h2>
         </div>    
         
+      
+      <a href="https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/">
+        <div class="motion-warpper tag-archive-node">
+          <div class="tag-node">
+            <h1>
+              07-27
+              <small>如何闭着眼睛写对二分搜索</small>
+            </h1>
+          </div>  
+      </div>
+      </a>
+    
+      
       
       <a href="https://lzyuuu.github.io/post/svm-in-primal-suan-fa/">
         <div class="motion-warpper tag-archive-node">
@@ -1106,10 +1119,143 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/"" data-c="
+          &lt;blockquote&gt;
+&lt;p&gt;本文参考自《labuladong的算法小抄》&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;二分查找并不简单，Knuth 大佬（发明 KMP 算法的那位）都说二分查找：&lt;strong&gt;思路很简单，细节是魔鬼&lt;/strong&gt;。很多人喜欢拿整型溢出的 bug 说事儿，但是二分查找真正的坑根本就不是那个细节问题，而是在于到底要给 &lt;code&gt;mid&lt;/code&gt; 加一还是减一，while 里到底用&lt;code&gt;&amp;lt;=&lt;/code&gt;还是&lt;code&gt;&amp;lt;&lt;/code&gt; 。本文就来探究几个最常用的二分查找场景：寻找一个数、寻找左侧边界、寻找右侧边界。而且，我们就是要深入细节，比如不等号是否应该带等号，mid 是否应该加一等等。分析这些细节的差异以及出现这些差异的原因，保证你能灵活准确地写出正确的二分查找算法。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;二分查找框架&#34;&gt;二分查找框架&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def binarySearch(nums: List[int], target: int) -&amp;gt; int:
+    left, right = 0, ...
+    while ... :
+        mid = left + (right - left) / 2
+        if nums[mid] == target:
+            # ...
+        elif nums[mid] &amp;lt; target:
+            # left = ...
+        elif nums[mid] &amp;gt; target:
+            # right = ...
+    return ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;分析二分查找的一个技巧是：不要出现 else，而是把所有情况用 else if 写清楚，这样可以清楚地展现所有细节。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;其中 &lt;code&gt;...&lt;/code&gt; 标记的部分，就是可能出现细节问题的地方，当你见到一个二分查找的代码时，首先注意这几个地方。后文用实例分析这些地方能有什么样的变化。另外声明一下，计算 mid 时需要防止溢出，代码中 &lt;code&gt;left + (right - left) / 2&lt;/code&gt; 就和 &lt;code&gt;(left + right) / 2&lt;/code&gt; 的结果相同，但是有效防止了 &lt;code&gt;left&lt;/code&gt; 和 &lt;code&gt;right&lt;/code&gt; 太大直接相加导致溢出。&lt;/p&gt;
+&lt;h2 id=&#34;寻找一个数基本二分搜索&#34;&gt;寻找一个数（基本二分搜索）&lt;/h2&gt;
+&lt;p&gt;最简单的场景，在区间内搜索一个数，如果存在返回其索引，否则返回-1。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def binarySearch(nums: List[int], target: int) -&amp;gt; int:
+    left, right = 0, len(nums) - 1	# 注意
+    while left &amp;lt;= right:
+        mid = left + (right - left) // 2
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] &amp;lt; target:
+            left = mid + 1
+        elif nums[mid] &amp;gt; target:
+            right = mid - 1
+    return -1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;0、如何判断搜索区间是左闭右开还是左闭右闭？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;答：从&lt;code&gt;left&lt;/code&gt;和&lt;code&gt;right&lt;/code&gt;的初始化就能判断搜索区间的形式，如果&lt;code&gt;right&lt;/code&gt;的初始值是&lt;code&gt;len(nums) - 1&lt;/code&gt;，也就意味着&lt;code&gt;right&lt;/code&gt;初始值代表的是最后一个元素的索引，因此搜索区间是左闭右闭&lt;code&gt;[left, right]&lt;/code&gt;的，该区间完全是由数组索引所限定的，取值也无法超出数组索引。&lt;/p&gt;
+&lt;p&gt;如果&lt;code&gt;right&lt;/code&gt;的初始值是&lt;code&gt;len(nums)&lt;/code&gt;，那么就意味着搜索区间变成&lt;code&gt;[left, right)&lt;/code&gt;，也就是左闭右开，因为此时&lt;code&gt;right = len(nums)&lt;/code&gt;是越界的&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1、为什么 while 循环的条件中是 &lt;code&gt;&amp;lt;=&lt;/code&gt;，而不是 &lt;code&gt;&amp;lt;&lt;/code&gt;&lt;/strong&gt;？&lt;/p&gt;
+&lt;p&gt;答：以上算法在什么时候需要停止搜索？两种停止条件，第一种是找到了目标值：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;if nums[mid] == target:
+    return mid
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;第二种是找不到目标值，这时候需要while循环终止，然后返回-1。那么这里问题就在于while循环的终止条件是什么？容易知道，当搜索区间为空时应该终止。那么终止条件到底是&lt;code&gt;left &amp;lt;= right&lt;/code&gt;还是&lt;code&gt;left &amp;lt; right&lt;/code&gt;呢？我们分开来考虑。首先，我们已经知道上述代码的搜索区间是左闭右闭区间。&lt;/p&gt;
+&lt;p&gt;当终止条件为&lt;code&gt;while left &amp;lt;= right&lt;/code&gt;时，&lt;code&gt;left == right + 1&lt;/code&gt;时while停止循环，此时的区间为&lt;code&gt;[right+1, right]&lt;/code&gt;，代入一个具体的数字则是&lt;code&gt;[3, 2]&lt;/code&gt;，这时候区间是空的，因此循环终止条件是正确的。&lt;/p&gt;
+&lt;p&gt;当终止条件为&lt;code&gt;while left &amp;lt; right&lt;/code&gt;时，&lt;code&gt;left == right&lt;/code&gt;时while停止循环，那么此时的区间为&lt;code&gt;[right, right]&lt;/code&gt;，代入具体数字则是&lt;code&gt;[2, 2]&lt;/code&gt;，那么可以发现区间非空，2这个数还没进行判断就已经停止循环了，因此循环终止条件是错误的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2、为什么 &lt;code&gt;left = mid + 1&lt;/code&gt;，&lt;code&gt;right = mid - 1&lt;/code&gt;？我看有的代码是 &lt;code&gt;right = mid&lt;/code&gt; 或者 &lt;code&gt;left = mid&lt;/code&gt;，没有这些加加减减，到底怎么回事，怎么判断？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;答：这也是二分查找的一个难点，不过只要你能理解前面的内容，就能够很容易判断。&lt;/p&gt;
+&lt;p&gt;刚才明确了「搜索区间」这个概念，而且本算法的搜索区间是两端都闭的，即 &lt;code&gt;[left, right]&lt;/code&gt;。那么当我们发现索引 &lt;code&gt;mid&lt;/code&gt; 不是要找的 &lt;code&gt;target&lt;/code&gt; 时，下一步应该去搜索哪里呢？&lt;/p&gt;
+&lt;p&gt;当然是去搜索 &lt;code&gt;[left, mid-1]&lt;/code&gt; 或者 &lt;code&gt;[mid+1, right]&lt;/code&gt; 对不对？因为 &lt;code&gt;mid&lt;/code&gt; 已经搜索过，应该从搜索区间中去除。&lt;/p&gt;
+&lt;h2 id=&#34;寻找左边界的二分搜索&#34;&gt;寻找左边界的二分搜索&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def left_bound(nums: list, target: int) -&amp;gt; int:
+  	if not nums:
+        return -1
+    left, right = 0, len(nums)	# 注意
+    while left &amp;lt; right:	  		# 注意
+        mid = left + (right - left) // 2
+        if num[mid] == target:
+            right = mid
+        elif num[mid] &amp;gt; target:
+            right = mid
+        elif num[mid] &amp;lt; target:
+            left = mid + 1		# 注意
+    return left
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;1、为什么 while 循环的条件中是 &lt;code&gt;&amp;lt;&lt;/code&gt;，而不是 &lt;code&gt;&amp;lt;=&lt;/code&gt;？为什么 &lt;code&gt;left = mid + 1&lt;/code&gt;，&lt;code&gt;right = mid&lt;/code&gt;？这和之前的算法不一样？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;答：类似与基本二分搜索法的分析，由于&lt;code&gt;left&lt;/code&gt;和&lt;code&gt;right&lt;/code&gt;初始值选择的是&lt;code&gt;0&lt;/code&gt;和&lt;code&gt;len(nums)&lt;/code&gt;，因此搜索区间是左闭右开区间&lt;code&gt;[left, right)&lt;/code&gt;，其中&lt;code&gt;while (left &amp;lt; right)&lt;/code&gt;循环的终止条件则是&lt;code&gt;left == right&lt;/code&gt;，此时搜索区间为&lt;code&gt;[left, left)&lt;/code&gt;，即为空，循环条件正确。&lt;/p&gt;
+&lt;p&gt;PS. 这里选取左闭右开区间的理由是，对于搜索左右边界的二分查找，使用左闭右开区间的写法较为普遍，因此这里拿这种写法来举例。&lt;/p&gt;
+&lt;p&gt;同时由于搜索区间为左闭右开区间，因此当&lt;code&gt;nums[mid]&lt;/code&gt;被检测后，将会以&lt;code&gt;mid&lt;/code&gt;为中心分割为两个区间，&lt;code&gt;[left, mid)&lt;/code&gt;和&lt;code&gt;[mid + 1, right)&lt;/code&gt;。因此选取&lt;code&gt;left = mid + 1&lt;/code&gt;，&lt;code&gt;right = mid&lt;/code&gt;也就不难理解了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2、该算法是如何做到搜索左侧边界的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;答：关键是对于&lt;code&gt;num[mid] == target&lt;/code&gt;的情况的处理：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;if num[mid] == target:
+	# 搜索左侧边界
+    right = mid
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可见，找到 target 时不要立即返回，而是缩小「搜索区间」的上界 &lt;code&gt;right&lt;/code&gt;，在区间 &lt;code&gt;[left, mid)&lt;/code&gt; 中继续搜索，即不断向左收缩，达到锁定左侧边界的目的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3、能不能想办法把&lt;code&gt;right&lt;/code&gt; 变成 &lt;code&gt;len(nums) - 1&lt;/code&gt;，也就是继续使用两边都闭的「搜索区间」？这样就可以和第一种二分搜索在某种程度上统一起来了。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;答：当然可以，只要你明白了「搜索区间」这个概念，就能有效避免漏掉元素，随便你怎么改都行。下面我们严格根据逻辑来修改，由于需要让搜索区间为左闭右闭，因此&lt;code&gt;right&lt;/code&gt;应该初始化为&lt;code&gt;len(nums) - 1&lt;/code&gt;，while循环停止条件为&lt;code&gt;left == right + 1&lt;/code&gt;，因此应该使用&lt;code&gt;&amp;lt;=&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def left_bound(nums: list, target: int) -&amp;gt; int:
+    left, right = 0, len(nums) - 1
+    while left &amp;lt;= right:
+        mid = left + (right - left) // 2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;因为搜索区间是两端都闭的，且现在是搜索左侧边界，所以 &lt;code&gt;left&lt;/code&gt; 和 &lt;code&gt;right&lt;/code&gt; 的更新逻辑如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;if nums[mid] &amp;lt; target:
+    left = mid + 1
+elif nums[mid] &amp;gt; target:
+    right = mid - 1
+elif nums[mid] == target:
+    right = mid - 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;由于 while 的退出条件是 &lt;code&gt;left == right + 1&lt;/code&gt;，所以当 &lt;code&gt;target&lt;/code&gt; 比 &lt;code&gt;nums&lt;/code&gt; 中所有元素都大时，会存在以下情况使得索引越界：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://gblobscdn.gitbook.com/assets%2F-LrtQOWSnDdXhp3kYN4k%2Fsync%2F6865c24b1317f1f65f02348fe622c829c71219c1.jpg&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;因此，最后返回结果的代码应该检查越界情况：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;if left &amp;gt;= len(nums) or nums[left] != target:
+    return -1
+return left
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;至此，整个算法就写完了，完整代码如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def left_bound(nums: list, target: int) -&amp;gt; int:
+    left, right = 0, len(nums) - 1
+    while left &amp;lt;= right:
+        mid = left + (right - left) // 2
+        if nums[mid] &amp;lt; target:
+    		left = mid + 1
+		elif nums[mid] &amp;gt; target:
+            right = mid - 1
+        elif nums[mid] == target:
+            right = mid - 1
+   	if left &amp;gt;= len(nums) or nums[left] != target:
+        return -1
+    return left
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;寻找右边界的二分搜索&#34;&gt;寻找右边界的二分搜索&lt;/h2&gt;
+&lt;p&gt;这里类似左边界的二分搜索，我们可以直接写出左闭右闭的完整代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def right_bound(nums: list, target: int) -&amp;gt; int:
+    left, right = 0, len(nums) - 1
+    while left &amp;lt;= right:
+        mid = left + (right - left) // 2
+        if nums[mid] &amp;gt; target:
+            right = mid - 1
+        elif nums[mid] &amp;lt; target:
+            left = mid + 1
+        elif nums[mid] == target:
+            left = mid + 1
+    if right &amp;lt; 0 or nums[right] != target:
+        return -1
+    return right
+&lt;/code&gt;&lt;/pre&gt;
+">如何闭着眼睛写对二分搜索</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/svm-in-primal-suan-fa/"" data-c="
           &lt;p&gt;支持向量机（Support Vector Machine, SVM）是一类按监督学习（supervised learning）方式对数据进行二元分类的广义线性分类器（generalized linear classifier），其决策边界是对学习样本求解的最大边距超平面（maximum-margin hyperplane）。SVM可以通过核方法（kernel method）进行非线性分类，是常见的核学习（kernel learning）方法之一，在人像识别、文本分类等模式识别（pattern recognition）问题中有得到广泛应用。&lt;/p&gt;
 &lt;!-- more --&gt;
-&lt;h2 id=&#34;1-概述&#34;&gt;1、概述&lt;/h2&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;h3 id=&#34;p300信号详细信息&#34;&gt;P300信号详细信息：&lt;/h3&gt;
 &lt;p&gt;EEG信号：（Sample，Channels，Epochs，Trials）=（358，32，120，18）&lt;/p&gt;
 &lt;table&gt;
@@ -1143,12 +1289,12 @@
 &lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:1em;vertical-align:-0.25em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mopen&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mbin&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:1em;vertical-align:-0.25em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;m&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;u&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.01968em;&#34;&gt;l&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;mclose&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mbin&#34;&gt;×&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.72777em;vertical-align:-0.08333em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mbin&#34;&gt;×&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.69841em;vertical-align:-0.08333em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;u&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mbin&#34;&gt;×&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.85396em;vertical-align:-0.19444em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.02778em;&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2777777777777778em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mrel&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2777777777777778em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.64444em;vertical-align:0em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;s&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;h3 id=&#34;算法流程图&#34;&gt;算法流程图&lt;/h3&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1595598255647.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;h2 id=&#34;2-特征提取&#34;&gt;2、特征提取&lt;/h2&gt;
+&lt;h2 id=&#34;特征提取&#34;&gt;特征提取&lt;/h2&gt;
 &lt;p&gt;特征提取流程图&lt;/p&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1595598317177.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;滑动平均窗口：12&lt;/p&gt;
 &lt;p&gt;降采样频率：12&lt;/p&gt;
-&lt;h2 id=&#34;3-svm-in-primal&#34;&gt;3、SVM in Primal&lt;/h2&gt;
+&lt;h2 id=&#34;svm-in-primal&#34;&gt;SVM in Primal&lt;/h2&gt;
 &lt;p&gt;（1）zscore标准化&lt;/p&gt;
 &lt;p class=&#39;katex-block&#39;&gt;&lt;span class=&#34;katex-display&#34;&gt;&lt;span class=&#34;katex&#34;&gt;&lt;span class=&#34;katex-mathml&#34;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;z&lt;/mi&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;−&lt;/mo&gt;&lt;mi&gt;μ&lt;/mi&gt;&lt;/mrow&gt;&lt;msup&gt;&lt;mi&gt;σ&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;/mfrac&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;zscore = \frac{x-\mu}{\sigma^2}
 &lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&#34;katex-html&#34; aria-hidden=&#34;true&#34;&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:0.43056em;vertical-align:0em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.04398em;&#34;&gt;z&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;o&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.02778em;&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2777777777777778em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mrel&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2777777777777778em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;base&#34;&gt;&lt;span class=&#34;strut&#34; style=&#34;height:1.9463300000000001em;vertical-align:-0.686em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mopen nulldelimiter&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mfrac&#34;&gt;&lt;span class=&#34;vlist-t vlist-t2&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:1.2603300000000002em;&#34;&gt;&lt;span style=&#34;top:-2.314em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathdefault&#34; style=&#34;margin-right:0.03588em;&#34;&gt;σ&lt;/span&gt;&lt;span class=&#34;msupsub&#34;&gt;&lt;span class=&#34;vlist-t&#34;&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.740108em;&#34;&gt;&lt;span style=&#34;top:-2.9890000000000003em;margin-right:0.05em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:2.7em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;sizing reset-size6 size3 mtight&#34;&gt;&lt;span class=&#34;mord mtight&#34;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.23em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;frac-line&#34; style=&#34;border-bottom-width:0.04em;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;top:-3.677em;&#34;&gt;&lt;span class=&#34;pstrut&#34; style=&#34;height:3em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord&#34;&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mbin&#34;&gt;−&lt;/span&gt;&lt;span class=&#34;mspace&#34; style=&#34;margin-right:0.2222222222222222em;&#34;&gt;&lt;/span&gt;&lt;span class=&#34;mord mathdefault&#34;&gt;μ&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-s&#34;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;vlist-r&#34;&gt;&lt;span class=&#34;vlist&#34; style=&#34;height:0.686em;&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;mclose nulldelimiter&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
