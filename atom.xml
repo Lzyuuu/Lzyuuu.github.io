@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzyuuu.github.io</id>
     <title>Zhaoyu的博客</title>
-    <updated>2020-07-27T14:03:31.430Z</updated>
+    <updated>2020-08-09T03:11:52.570Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzyuuu.github.io"/>
     <link rel="self" href="https://lzyuuu.github.io/atom.xml"/>
@@ -10,6 +10,52 @@
     <logo>https://lzyuuu.github.io/images/avatar.png</logo>
     <icon>https://lzyuuu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Zhaoyu的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[学习计划]]></title>
+        <id>https://lzyuuu.github.io/post/xue-xi-ji-hua/</id>
+        <link href="https://lzyuuu.github.io/post/xue-xi-ji-hua/">
+        </link>
+        <updated>2020-08-09T03:08:29.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="代码能力">代码能力</h2>
+<p>提高方案：LeetCode刷题</p>
+<p>可用资源：<a href="https://labuladong.gitbook.io/algo/">labuladong的算法小抄</a>、<a href="%5Bhttps://www.geekxh.com/0.0.%E5%AD%A6%E4%B9%A0%E9%A1%BB%E7%9F%A5/01.html%5D(https://www.geekxh.com/0.0.%E5%AD%A6%E4%B9%A0%E9%A1%BB%E7%9F%A5/01.html)">小浩算法</a></p>
+<h2 id="工具能力">工具能力</h2>
+<h3 id="python基础工具">Python基础工具：</h3>
+<ul>
+<li>Pandas、Numpy</li>
+</ul>
+<h3 id="深度学习框架">深度学习框架：</h3>
+<ul>
+<li>
+<p>TensorFlow</p>
+<ul>
+<li>学习方案：<a href="https://lyhue1991.github.io/eat_tensorflow2_in_30_days/">《30天吃掉那只TensorFlow 2.0》</a>、<a href="https://trickygo.github.io/Dive-into-DL-TensorFlow2.0/#/">《动手学深度学习 TF2.0版》</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="算法能力">算法能力</h2>
+<h3 id="机器学习知识">机器学习知识：</h3>
+<ul>
+<li>学习方案：西瓜书、<a href="https://www.bilibili.com/video/av36731342">机器学习基石</a></li>
+</ul>
+<h3 id="深度学习相关">深度学习相关</h3>
+<ul>
+<li>Fast.ai《程序员深度学习实战》<a href="https://www.bilibili.com/video/BV1YJ411w7sP">视频链接</a></li>
+</ul>
+<h2 id="计算机基础知识">计算机基础知识</h2>
+<ul>
+<li>
+<p>计算机操作系统：《程序是怎样跑起来的》</p>
+</li>
+<li>
+<p>计算机概论：《计算机是怎样跑起来的》</p>
+</li>
+<li>
+<p>计算机网络：《网络是怎样连接的》</p>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何闭着眼睛写对二分搜索]]></title>
         <id>https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/</id>
