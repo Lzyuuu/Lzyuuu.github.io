@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzyuuu.github.io</id>
     <title>Zhaoyu的博客</title>
-    <updated>2020-08-09T03:11:52.570Z</updated>
+    <updated>2020-08-09T03:52:45.525Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzyuuu.github.io"/>
     <link rel="self" href="https://lzyuuu.github.io/atom.xml"/>
@@ -16,7 +16,11 @@
         <link href="https://lzyuuu.github.io/post/xue-xi-ji-hua/">
         </link>
         <updated>2020-08-09T03:08:29.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="代码能力">代码能力</h2>
+        <summary type="html"><![CDATA[<p>对于非科班专业的本菜鸡来说，算法岗与开发岗的要求实在是太高了，所以必须要从零开始，夯实基础，让自己的知识体系变得更加完备，以应付接下来的招聘笔面试的挑战。本文整理并记录了目前自己各个方面能力的提升方案与学习路径，并且还会不断更新中，希望能以此自勉，成为更好的自己。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>对于非科班专业的本菜鸡来说，算法岗与开发岗的要求实在是太高了，所以必须要从零开始，夯实基础，让自己的知识体系变得更加完备，以应付接下来的招聘笔面试的挑战。本文整理并记录了目前自己各个方面能力的提升方案与学习路径，并且还会不断更新中，希望能以此自勉，成为更好的自己。</p>
+<!-- more -->
+<h2 id="代码能力">代码能力</h2>
 <p>提高方案：LeetCode刷题</p>
 <p>可用资源：<a href="https://labuladong.gitbook.io/algo/">labuladong的算法小抄</a>、<a href="%5Bhttps://www.geekxh.com/0.0.%E5%AD%A6%E4%B9%A0%E9%A1%BB%E7%9F%A5/01.html%5D(https://www.geekxh.com/0.0.%E5%AD%A6%E4%B9%A0%E9%A1%BB%E7%9F%A5/01.html)">小浩算法</a></p>
 <h2 id="工具能力">工具能力</h2>
