@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>SVM in primal 算法 | Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1596945162117">
+<link rel="shortcut icon" href="/favicon.ico?v=1597824025986">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -213,7 +213,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">4</span>
+        <span class="site-item-stat-count">5</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -249,6 +249,11 @@
   
 
 
+
+  <div style="width: 100%; position: relative;">
+    <canvas id="canvasDiyBlock" style="width:100%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+    <script src="/media/js/magic/clock.js"></script>
+  </div>
 
 </div>
             </div>
@@ -1256,7 +1261,7 @@
 		}
 		$(document).ready(function () {
 			var AIimgSrc = [];
-			let chooseLive2d = 'rem'
+			let chooseLive2d = 'tororo'
 			if (chooseLive2d === 'histoire') {
 				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_00.png");
 				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_01.png");
@@ -1781,6 +1786,350 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/zi-xu-lie-zi-chuan-wen-ti-bi-ji/"" data-c="
+          &lt;h2 id=&#34;1-动态规划套路框架&#34;&gt;1 动态规划套路框架&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822657416.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;明确 base case -&amp;gt; 明确「状态」-&amp;gt; 明确「选择」 -&amp;gt; 定义 dp 数组/函数的含义。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# 初始化 base case
+dp[0][0][...] = base
+# 进行状态转移
+for 状态1 in 状态1的所有取值:
+    for 状态2 in 状态2的所有取值:
+        for ... :
+            dp[状态1][状态2][...] = 求最值(选择1，选择2...)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;2-状态转移方程设计&#34;&gt;2 状态转移方程设计&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;dp定义1：在子数组&lt;code&gt;array[0..i]&lt;/code&gt;中，以&lt;code&gt;array[i]&lt;/code&gt;结尾的目标子序列的长度是&lt;code&gt;dp[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;dp定义2：
+&lt;ul&gt;
+&lt;li&gt;涉及两个字符串/数组时（最长公共子序列）：在子数组&lt;code&gt;arr1[0..i]&lt;/code&gt;和子数组&lt;code&gt;arr2[0..j]&lt;/code&gt;中，我们要求的子序列（最长公共子序列）长度为&lt;code&gt;dp[i][j]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;只涉及一个字符串/数组时（最长回文子序列）：在子数组&lt;code&gt;array[i..j]&lt;/code&gt;中，我们要求的子序列（最长回文子序列）的长度为&lt;code&gt;dp[i][j]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;LeetCode题型：&lt;a href=&#34;https://leetcode-cn.com/problems/maximum-subarray/&#34;&gt;53.最大子序和&lt;/a&gt;、&lt;a href=&#34;https://leetcode-cn.com/problems/longest-increasing-subsequence&#34;&gt;300.最长递增子序列&lt;/a&gt;、&lt;a href=&#34;https://leetcode-cn.com/problems/longest-palindromic-subsequence&#34;&gt;516.最长回文子序列&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-动态规划问题详解&#34;&gt;3 动态规划问题详解&lt;/h2&gt;
+&lt;h3 id=&#34;31-最长递增子序列&#34;&gt;3.1 最长递增子序列&lt;/h3&gt;
+&lt;p&gt;根据我们总结出的套路：&lt;code&gt;dp[i]&lt;/code&gt; 表示以&lt;code&gt;nums[i]&lt;/code&gt;这个数结尾的最长递增子序列的长度。&lt;/p&gt;
+&lt;p&gt;假设我们已经知道了 &lt;code&gt;dp[0~4]&lt;/code&gt; 的所有结果，我们如何通过这些已知结果推出&lt;code&gt;dp[5]&lt;/code&gt;呢？根据刚才我们对 dp 数组的定义，现在想求&lt;code&gt;dp[5]&lt;/code&gt;的值，也就是想求以&lt;code&gt;nums[5]&lt;/code&gt;为结尾的最长递增子序列。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822728082.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;nums[5] = 3&lt;/code&gt;，既然是递增子序列，我们只要找到前面那些结尾比 3 小的子序列，然后把 3 接到最后，就可以形成一个新的递增子序列，而且这个新的子序列长度加一。当然，可能形成很多种新的子序列，但是我们只要最长的，把最长子序列的长度作为&lt;code&gt;dp[5]&lt;/code&gt;的值即可。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def lengthOfLIS(nums: list[int]) -&amp;gt; int:    
+# NULL return    
+		if not nums:
+				return []    
+# dp initialize    
+		dp = [1] * len(nums)    
+# dp process    
+		for i in range(len(nums)):
+        for j in range(i+1):
+            if nums[i] &amp;gt; nums[j]:
+                dp[i] = max(dp[i], dp[j-1] + 1)
+    return max(nums)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;32-最大子数组和&#34;&gt;3.2 最大子数组和&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;问题描述&lt;/strong&gt;：&lt;br&gt;
+给定一个整数数组nums，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;同样，类似最长递增子序列，我们可以将dp数组定义为：以&lt;code&gt;nums[i]&lt;/code&gt;结尾的子数组&lt;code&gt;nums[0...i]&lt;/code&gt;的「最大的子数组和」为&lt;code&gt;dp[i]&lt;/code&gt;。如果这样定义的话，整个&lt;code&gt;nums&lt;/code&gt;数组的「最大子数组和」就是&lt;code&gt;dp[n-1]&lt;/code&gt;。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822736975.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;假设我们已经算出了&lt;code&gt;dp[i-1]&lt;/code&gt;，如何推导出&lt;code&gt;dp[i]&lt;/code&gt;呢？&lt;code&gt;dp[i]&lt;/code&gt;有两种「选择」，要么与前面的相邻子数组连接，形成一个和更大的子数组；要么不与前面的子数组连接，自成一派，自己作为一个子数组。如何选择？既然要求「最大子数组和」，当然选择结果更大的那个啦。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def maxSubArray(nums: list[int]) -&amp;gt; int:
+    # NULL
+    if not nums:
+        return 0
+    if len(nums) == 1:
+        return nums[0]
+    # dp initialize
+    # dp process
+    for i in range(1, len(nums)):
+        nums[i] = max(nums[i], nums[i-1]+nums[i])
+    return max(nums)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;33-最长公共子序列&#34;&gt;3.3 最长公共子序列&lt;/h3&gt;
+&lt;p&gt;最长公共子序列（Longest Common Subsequence，简称 LCS）是一道非常经典的面试题目，因为它的解法是典型的二维动态规划，大部分比较困难的字符串问题都和这个问题一个套路，比如说编辑距离。而且，这个算法稍加改造就可以用于解决其他问题，所以说 LCS 算法是值得掌握的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;问题描述：求两个字符串的 LCS 长度&lt;br&gt;
+输入: &lt;code&gt;s1 = “ace”，s2 = “babcde”&lt;/code&gt;&lt;br&gt;
+输出: &lt;code&gt;3&lt;/code&gt;&lt;br&gt;
+解释: 最长公共子序列是 “ace”，它的长度是 3&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;第一步，一定要明确&lt;code&gt;dp&lt;/code&gt;数组的含义&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822745361.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;根据子序列问题常用的dp定义2，我们可以将dp数组定义为：对于&lt;code&gt;s1[1..i]&lt;/code&gt;和&lt;code&gt;s2[1..j]&lt;/code&gt;，它们的 LCS 长度是&lt;code&gt;dp[i][j]&lt;/code&gt;。对于上图的例子，我们最终想得到的答案应该是&lt;code&gt;dp[3][6]&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第二步，定义 base case&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;按照刚才 dp 数组的定义，&lt;code&gt;dp[0][3]=0&lt;/code&gt;的含义是：对于字符串&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;和&lt;code&gt;&amp;quot;bab&amp;quot;&lt;/code&gt;，其 LCS 的长度为 0。因为有一个字符串是空串，它们的最长公共子序列的长度显然应该是 0。因此&lt;code&gt;dp[0][..]&lt;/code&gt;和&lt;code&gt;dp[..][0]&lt;/code&gt;都应该初始化为 0，这就是 base case。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第三步，找状态转移方程。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果某个字符应该在&lt;code&gt;lcs&lt;/code&gt;中，那么这个字符肯定同时存在于&lt;code&gt;s1&lt;/code&gt;和&lt;code&gt;s2&lt;/code&gt;中，因此可以用两个指针&lt;code&gt;i&lt;/code&gt;和&lt;code&gt;j&lt;/code&gt;从后往前遍历&lt;code&gt;s1&lt;/code&gt;和&lt;code&gt;s2&lt;/code&gt;，如果&lt;code&gt;s1[i]==s2[j]&lt;/code&gt;，那么这个字符&lt;strong&gt;一定在&lt;code&gt;lcs&lt;/code&gt;中&lt;/strong&gt;；否则的话，&lt;code&gt;s1[i]&lt;/code&gt;和&lt;code&gt;s2[j]&lt;/code&gt;这两个字符&lt;strong&gt;至少有一个不在&lt;code&gt;lcs&lt;/code&gt;中&lt;/strong&gt;，需要丢弃一个。那么丢弃策略如何判断？我们可以比较分别丢弃&lt;code&gt;s1[i]&lt;/code&gt;和&lt;code&gt;s2[j]&lt;/code&gt;这两个字符后两个序列的&lt;code&gt;lcs&lt;/code&gt;长度，哪个长就用哪种丢弃策略。&lt;/p&gt;
+&lt;p&gt;可以写出递归解法：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def longestCommonSubsequence(str1: str, str2: str) -&amp;gt; int:
+    def dp(i, j):
+        if i == 0 or j == 0:
+            return 0
+        if str1[i] == str2[j]:
+            # 当str1[i]==str2[j]时，这个字符在lcs中，继续往前找
+            return dp(i-1, j-1) + 1
+        else:
+            # 谁能让lcs更长，就听谁的
+            return max(dp(i-1, j), dp(i, j-1))
+    return dp(len(str1), len(str2))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;同样，也可以写成dp table解法：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def longestCommonSubsequence(str1: str, str2: str) -&amp;gt; int:
+    &#39;&#39;&#39;dp initial&#39;&#39;&#39;
+    m, n = len(str1), len(str2)
+    dp = [[0 for j in range(n + 1)] for i in range(m + 1)]
+    &#39;&#39;&#39;base case&#39;&#39;&#39;
+    # dp[0][i] = 0, dp[i][0] = 0 已满足，因此可以省略不写
+    &#39;&#39;&#39;dp process&#39;&#39;&#39;
+    # basecase中已经初始化了0，因此遍历可以直接从1开始
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i - 1] == str2[j - 1]:
+                dp[i][j] = 1 + dp[i - 1][j - 1]
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[m][n]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;34-编辑距离&#34;&gt;3.4 编辑距离&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;问题描述：&lt;br&gt;
+给定两个字符串s1和s2，计算将s1转换为s2的最小操作数。你可以对字符串进行如下三种操作：&lt;br&gt;
+1、插入一个字符    2、删除一个字符    3、替换一个字符&lt;/p&gt;
+&lt;p&gt;输入：&lt;code&gt;s1=&amp;quot;horse&amp;quot;&lt;/code&gt;, &lt;code&gt;s2=&amp;quot;ros&amp;quot;&lt;/code&gt;&lt;br&gt;
+输出：&lt;code&gt;3&lt;/code&gt;&lt;br&gt;
+解释：horse → rorse&lt;br&gt;
+rorse → rose&lt;br&gt;
+rose → ros&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;前文「最长公共子序列」说过，解决两个字符串的动态规划问题，一般都是用两个指针 i,j 分别指向两个字符串的最后，然后一步步往前走，缩小问题的规模。&lt;/p&gt;
+&lt;p&gt;那么对于每个&lt;code&gt;i，j&lt;/code&gt;，有四种处理方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当指针指向的字符相同时，什么操作都不需要做，同时指针都往前动一格，返回&lt;code&gt;dp(i-1, j-1)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;当指针指向的字符不同时，可以进行三种操作，因此我们可以分别进行三种操作并比较哪个操作更优
+&lt;ul&gt;
+&lt;li&gt;插入操作，此时&lt;code&gt;i&lt;/code&gt;指针不动，&lt;code&gt;j&lt;/code&gt;指针往前动一格&lt;/li&gt;
+&lt;li&gt;删除操作，此时&lt;code&gt;i&lt;/code&gt;指针往前动一格，&lt;code&gt;j&lt;/code&gt;指针不动&lt;/li&gt;
+&lt;li&gt;替换操作，此时&lt;code&gt;i, j&lt;/code&gt;指针都往前动一格&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def minDistance(s1, s2) -&amp;gt; int:
+    def dp(i, j):
+        # base case
+        if i == -1: return j + 1
+        if j == -1: return i + 1
+
+        if s1[i] == s2[j]:
+            return dp(i - 1, j - 1)  # 啥都不做
+        else:
+            return min(
+                dp(i, j - 1) + 1,    # 插入
+                dp(i - 1, j) + 1,    # 删除
+                dp(i - 1, j - 1) + 1 # 替换
+            )
+
+    # i，j 初始化指向最后一个索引
+    return dp(len(s1) - 1, len(s2) - 1)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;35-最长回文子序列&#34;&gt;3.5 最长回文子序列&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;问题描述：&lt;br&gt;
+给定一个字符串S，找到其中的最长回文子序列，假设S最大长度为1000&lt;br&gt;
+输入：&lt;code&gt;“bbbab”&lt;/code&gt;&lt;br&gt;
+输出：&lt;code&gt;4&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;与上文中求最长公共子序列类似，我们可以根据dp定义2对dp数组进行定义：在子串&lt;code&gt;s[i..j]&lt;/code&gt;中，最长回文子序列的长度为&lt;code&gt;dp[i][j]&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;假设我们已知&lt;code&gt;dp[i+1][j-1]&lt;/code&gt;，那我们如何推出&lt;code&gt;dp[i][j]&lt;/code&gt;的值呢？我们可以分情况讨论，假设&lt;code&gt;s[i]&lt;/code&gt;和&lt;code&gt;s[j]&lt;/code&gt;相等，那么它俩加上&lt;code&gt;s[i+1..j-1]&lt;/code&gt;中的最长回文子序列就是&lt;code&gt;s[i..j]&lt;/code&gt;的最长回文子序列.&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822754383.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;如果它俩不相等，说明它俩不可能同时出现在&lt;code&gt;s[i..j]&lt;/code&gt;的最长回文子序列中，那么就可以分别比较&lt;code&gt;s[i...j-1]&lt;/code&gt;和&lt;code&gt;s[i+1...j]&lt;/code&gt;两者的最长回文子序列到底哪个长，取更长的。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822761121.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;接下来判断base case，如果只有一个字符，显然最长回文子序列长度是 1，也就是&lt;code&gt;dp[i][j] = 1,(i == j)&lt;/code&gt;。同样，因为&lt;code&gt;i&lt;/code&gt;肯定小于等于&lt;code&gt;j&lt;/code&gt;，所以对于那些&lt;code&gt;i &amp;gt; j&lt;/code&gt;的位置，根本不存在什么子序列，应该初始化为 0。&lt;/p&gt;
+&lt;p&gt;由于我们想求&lt;code&gt;dp[i][j]&lt;/code&gt;需要知道&lt;code&gt;dp[i+1][j-1]&lt;/code&gt;，&lt;code&gt;dp[i+1][j]&lt;/code&gt;，&lt;code&gt;dp[i][j-1]&lt;/code&gt;这三个位置；再看看我们确定的 base case，填入 dp 数组之后是这样：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822766783.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;为了保证每次计算&lt;code&gt;dp[i][j]&lt;/code&gt;，左、下、左下三个方向的位置已经被计算出来，只能斜着遍历或者反着遍历，因此可以根据上述分析写出代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def longestPalindromeSubseq(self, s: str) -&amp;gt; int:    
+    # dp initialize    
+		n = len(s)
+		dp = [[0 for j in range(n)] for i in range(n)]   
+    # base case    
+		for i in range(n):        
+				dp[i][i] = 1    
+		# dp process    
+		for i in range(n, -1, -1):        
+				for j in range(i+1, n):            
+						if s[i] == s[j]:
+		            dp[i][j] = dp[i+1][j-1] + 2
+		        else:
+		            dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+    return dp[0][n-1]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;P.S. 在进行DP数组的初始化大小和处理base case的时候，经常会出现一个问题，那就是DP数组究竟应该定义为&lt;code&gt;[0, n-1]&lt;/code&gt;还是&lt;code&gt;[0, n]&lt;/code&gt;，也就是说DP数组的长度是&lt;code&gt;n&lt;/code&gt;还是&lt;code&gt;n+1&lt;/code&gt;。一般来说如果索引&lt;code&gt;i&lt;/code&gt;代表的是长度、重量之类的量纲单位，那么长度应该选取&lt;code&gt;n+1&lt;/code&gt;，而索引&lt;code&gt;i&lt;/code&gt;代表的仅仅是字符串、序列、数组等数据结构的索引坐标，那么长度仅需要选取&lt;code&gt;n&lt;/code&gt;即可。&lt;/p&gt;
+&lt;h3 id=&#34;36-最长回文子串&#34;&gt;3.6 最长回文子串&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;问题描述：给定一个字符串 &lt;code&gt;s&lt;/code&gt;，找到 &lt;code&gt;s&lt;/code&gt; 中最长的回文子串。你可以假设 s 的最大长度为 1000。&lt;br&gt;
+输入: &lt;code&gt;&amp;quot;babad&amp;quot;&lt;/code&gt;&lt;br&gt;
+输出: &lt;code&gt;&amp;quot;bab&amp;quot;&lt;/code&gt;&lt;br&gt;
+注意: &lt;code&gt;&amp;quot;aba&amp;quot;&lt;/code&gt; 也是一个有效答案。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;子串与子序列的不同之处在于，子串是必须连续的，而子序列是可以不连续的。因此子串的判断需要比子序列更加严格，约束条件更高。但dp思路是基本一致的。&lt;/p&gt;
+&lt;p&gt;类似最长回文子序列中的dp定义，我们在这里可以将dp数组定义为：&lt;code&gt;dp[i][j]&lt;/code&gt;代表子串&lt;code&gt;s[i...j]&lt;/code&gt;是否为回文子串。&lt;/p&gt;
+&lt;p&gt;定义好dp数组后，我们来看base case：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当字符串只有一位，即&lt;code&gt;i = j&lt;/code&gt;时，必定是回文子串；&lt;/li&gt;
+&lt;li&gt;当字符串只有两位，即&lt;code&gt;j - i = 1&lt;/code&gt;时，若&lt;code&gt;s[i] = s[j]&lt;/code&gt;，如&amp;quot;bb&amp;quot;，则为回文子串；&lt;/li&gt;
+&lt;li&gt;否则，&lt;code&gt;s[i...j]&lt;/code&gt;是回文子串，必须满足两个条件，&lt;code&gt;s[i] = s[j]&lt;/code&gt;且&lt;code&gt;s[i+1...j-1]&lt;/code&gt;同样为回文子串。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;题目要求返回的是最长回文子串，因此我们可以在每次发现回文子串时，比较其长度与最大回文子串长度，并记录其长度以及索引，最后索引对应的子串即可。&lt;/p&gt;
+&lt;p&gt;代码如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def longestPalindrome(s: str): -&amp;gt; str:
+    # NULL
+		if not s:
+				return &amp;quot;&amp;quot;
+		# dp initial
+		n = len(s)
+		dp = [[False for j in range(n)] for i in range(n)]
+		# base case
+		for i in range(n):
+				dp[i][i] = True
+		# dp process
+		maxLen, l, r = 0, 0, 0
+		for i in range(n, -1, -1):
+				for j in range(i+1, n):
+						if s[i] == s[j] and (j - i &amp;lt;= 1 or dp[i+1][j-1]):
+								dp[i][j] = True
+								if j - i + 1 &amp;gt; maxLen:
+										maxLen = j - i + 1
+										l, r = i, j
+		return s[l:r+1]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;37-通配符匹配&#34;&gt;3.7 通配符匹配&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持&lt;code&gt;&#39;?&#39;&lt;/code&gt;和 &lt;code&gt;&#39;*&#39;&lt;/code&gt;的通配符匹配。&lt;br&gt;
+&lt;code&gt;&#39;?&#39;&lt;/code&gt;可以匹配任何单个字符。&lt;br&gt;
+&lt;code&gt;&#39;*&#39;&lt;/code&gt;可以匹配任意字符串（包括空字符串）。&lt;br&gt;
+两个字符串完全匹配才算匹配成功。&lt;br&gt;
+说明:&lt;br&gt;
+&lt;code&gt;s&lt;/code&gt;可能为空，且只包含从 &lt;code&gt;a-z&lt;/code&gt; 的小写字母。&lt;br&gt;
+&lt;code&gt;p&lt;/code&gt; 可能为空，且只包含从&lt;code&gt;a-z&lt;/code&gt;的小写字母，以及字符&lt;code&gt;?&lt;/code&gt; 和&lt;code&gt;*&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;根据子序列问题的dp定义套路，可以把&lt;code&gt;dp[i][j]&lt;/code&gt;表示&lt;code&gt;s&lt;/code&gt;到&lt;code&gt;i&lt;/code&gt;位置,&lt;code&gt;p&lt;/code&gt;到&lt;code&gt;j&lt;/code&gt;位置是否匹配。&lt;/p&gt;
+&lt;p&gt;base case：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;dp[0][0]&lt;/code&gt;：两个字符串都为空，所以为&lt;code&gt;True&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dp[0][j]&lt;/code&gt;：&lt;code&gt;s&lt;/code&gt;为空时，&lt;code&gt;p&lt;/code&gt;必须全部为&lt;code&gt;&amp;quot;*&amp;quot;&lt;/code&gt;才能保证匹配&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dp[i][0]&lt;/code&gt;：&lt;code&gt;s&lt;/code&gt;不为空，但&lt;code&gt;p&lt;/code&gt;为空，不可能匹配&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;动态方程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当&lt;code&gt;s[i] == p[j]&lt;/code&gt;时，&lt;code&gt;dp[i][j]&lt;/code&gt;的值取决于&lt;code&gt;dp[i-1][j-1]&lt;/code&gt;的值&lt;/li&gt;
+&lt;li&gt;当&lt;code&gt;s[i] != p[j]&lt;/code&gt;时，有三种情况
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;p[j] == &#39;?&#39;&lt;/code&gt;时，这种情况可以等价为&lt;code&gt;s[i] == p[j]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p[j] == &#39;*&#39;&lt;/code&gt;时，要么&lt;code&gt;&#39;*&#39;&lt;/code&gt;代表空字符串，此时&lt;code&gt;dp[i][j]&lt;/code&gt;的值取决于&lt;code&gt;dp[i][j-1]&lt;/code&gt;的值；要么&lt;code&gt;&#39;*&#39;&lt;/code&gt;代表非空字符串，此时&lt;code&gt;dp[i][j]&lt;/code&gt;的值取决于&lt;code&gt;dp[i-1][j]&lt;/code&gt;的值&lt;/li&gt;
+&lt;li&gt;当&lt;code&gt;s[i]&lt;/code&gt;和&lt;code&gt;p[j]&lt;/code&gt;都是字母时且不相同时，不匹配&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;代码如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Solution:
+    def isMatch(self, s: str, p: str) -&amp;gt; bool:
+        # dp initial
+        m, n = len(s), len(p)
+        dp = [[False for j in range(n + 1)] for i in range(m + 1)]
+        # base case
+        dp[0][0] = True
+        for i in range(1, n + 1):
+            if p[i - 1] == &#39;*&#39;:
+                dp[0][i] = dp[0][i - 1]
+        # dp process
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if s[i - 1] == p[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    if p[j - 1] == &amp;quot;?&amp;quot;:
+                        dp[i][j] = dp[i - 1][j - 1]
+                    elif p[j - 1] == &amp;quot;*&amp;quot;:
+                        dp[i][j] = dp[i - 1][j] or dp[i][j - 1]
+        return dp[m][n]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;38-正则表达式匹配&#34;&gt;3.8 正则表达式匹配&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个字符串&lt;code&gt;s&lt;/code&gt;和一个字符规律&lt;code&gt;p&lt;/code&gt;，请你来实现一个支持&lt;code&gt;&#39;.&#39;&lt;/code&gt; 和&lt;code&gt;&#39;*&#39;&lt;/code&gt; 的正则表达式匹配。&lt;br&gt;
+&lt;code&gt;&#39;.&#39;&lt;/code&gt; 匹配任意单个字符&lt;br&gt;
+&lt;code&gt;&#39;*&#39;&lt;/code&gt; 匹配零个或多个前面的那一个元素&lt;br&gt;
+所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。&lt;br&gt;
+说明:&lt;br&gt;
+&lt;code&gt;s&lt;/code&gt;可能为空，且只包含从 a-z 的小写字母。&lt;br&gt;
+&lt;code&gt;p&lt;/code&gt;可能为空，且只包含从 a-z 的小写字母，以及字符&lt;code&gt;.&lt;/code&gt;和&lt;code&gt;*&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;正则表达式匹配这道题跟上一道题通配符匹配有异曲同工之妙，但正则表达式匹配比上一道题稍微难一点，因为需要判断的情况较为复杂，但思路是完全一样的。&lt;/p&gt;
+&lt;p&gt;由套路框架可以写出动态规划方程的定义：&lt;code&gt;dp[i][j]&lt;/code&gt;表示&lt;code&gt;s&lt;/code&gt;到&lt;code&gt;i&lt;/code&gt;位置,&lt;code&gt;p&lt;/code&gt;到&lt;code&gt;j&lt;/code&gt;位置是否匹配。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dp&lt;/code&gt;的初始化&lt;/p&gt;
+&lt;p&gt;一般来说，涉及两个字符串的题目，dp矩阵一般会初始化为以&lt;code&gt;dp[len(字符串1) + 1][len(字符串2) + 1]&lt;/code&gt;为大小的尺寸。因为一般来说我们需要考虑字符串为空的情形，因此&lt;code&gt;dp[i][j]&lt;/code&gt;中的&lt;code&gt;i&lt;/code&gt;和&lt;code&gt;j&lt;/code&gt;代表的是字符串长度而不是索引下标，其中&lt;code&gt;i&lt;/code&gt;和&lt;code&gt;j&lt;/code&gt;为&lt;code&gt;0&lt;/code&gt;代表字符串为空的情形。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Base case&lt;/p&gt;
+&lt;p&gt;考虑base case，容易想到考虑的是&lt;code&gt;s&lt;/code&gt;和&lt;code&gt;p&lt;/code&gt;字符串为空串时的情形，因此有三种情况需要讨论：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;dp[0][0]&lt;/code&gt;：两个字符串均为空串，可以认为是匹配的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dp[i][0]&lt;/code&gt;：&lt;code&gt;p&lt;/code&gt;字符串为空串，&lt;code&gt;s&lt;/code&gt;字符串不为空串，该情形是不匹配的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dp[0][j]&lt;/code&gt;：&lt;code&gt;s&lt;/code&gt;字符串为空串，&lt;code&gt;p&lt;/code&gt;字符串不为空串，这种情况下匹配的条件是&lt;code&gt;p&lt;/code&gt;字符串应由&lt;code&gt;&amp;quot;a*&amp;quot;&lt;/code&gt;或&lt;code&gt;&amp;quot;.*&amp;quot;&lt;/code&gt;组成，由匹配条件可以知道，&lt;code&gt;p&lt;/code&gt;字符串必须为偶数长度，奇数长度不可能满足匹配条件，因此可以定义&lt;code&gt;dp[0][1] = False&lt;/code&gt;，同时有&lt;code&gt;dp[0][j] = dp[0][j - 2]&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;动态方程&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当&lt;code&gt;s[i - 1] = p[j - 1]&lt;/code&gt;时，&lt;code&gt;dp[i][j]&lt;/code&gt;的值取决于&lt;code&gt;dp[i][j] = dp[i - 1][j - 1]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;当&lt;code&gt;s[i - 1] ≠ p[j - 1]&lt;/code&gt;时，则可以分为以下几种情况
+&lt;ul&gt;
+&lt;li&gt;当&lt;code&gt;p[j - 1] = &#39;.&#39;&lt;/code&gt;时，则等价于&lt;code&gt;s[i - 1] = p[j - 1]&lt;/code&gt;，因此&lt;code&gt;dp[i][j] = dp[i - 1][j - 1]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;当&lt;code&gt;p[j - 1] = &#39;*&#39;&lt;/code&gt;时，那么就要看&lt;code&gt;&#39;*&#39;&lt;/code&gt;前一位的字符&lt;code&gt;p[j - 2]&lt;/code&gt;是什么
+&lt;ul&gt;
+&lt;li&gt;当&lt;code&gt;p[j - 2] = s[i - 1]&lt;/code&gt;或&lt;code&gt;p[j - 2] = &#39;.&#39;&lt;/code&gt;时，那么在这种情况下，我们可以选择令这个&lt;code&gt;&#39;x*&#39;&lt;/code&gt;字符串指代当前的&lt;code&gt;s[i - 1]&lt;/code&gt;，此时的&lt;code&gt;dp&lt;/code&gt;取决于&lt;code&gt;dp[i - 1][j]&lt;/code&gt;，也可以选择令这个字符串指代为空字符串，此时的&lt;code&gt;dp&lt;/code&gt;则取决于&lt;code&gt;dp[i][j - 2]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;当&lt;code&gt;p[j - 2] ≠ s[i - 1]&lt;/code&gt;时，如果要满足匹配，那么只能将&lt;code&gt;&amp;quot;x*&amp;quot;&lt;/code&gt;字符串指代为空字符串，那么此时的&lt;code&gt;dp&lt;/code&gt;只能取决于&lt;code&gt;dp[i][j - 2]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;代码如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Solution:
+    def isMatch(self, s: str, p: str) -&amp;gt; bool:
+        m, n = len(s), len(p)
+        # dp initialize
+        dp = [[False for j in range(n + 1)] for i in range(m + 1)]
+        # base case
+        dp[0][0] = True
+        dp[0][1] = False
+        for j in range(2, n + 1):
+            if p[j - 1] == &#39;*&#39;:
+                dp[0][j] = dp[0][j - 2]
+        # dp process
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if s[i - 1] == p[j - 1] or p[j - 1] == &#39;.&#39;:
+                    dp[i][j] = dp[i - 1][j - 1]
+                elif p[j - 1] == &#39;*&#39;:
+                    if p[j - 2] == s[i - 1] or p[j - 2] == &#39;.&#39;:
+                        dp[i][j] = dp[i - 1][j] or dp[i][j - 2]
+                    else:
+                        dp[i][j] = dp[i][j - 2]
+                else:
+                    dp[i][j] = False
+        return dp[m][n]
+&lt;/code&gt;&lt;/pre&gt;
+">子序列（子串）问题笔记</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/xue-xi-ji-hua/"" data-c="
