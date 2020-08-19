@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lzyuuu.github.io</id>
     <title>Zhaoyu的博客</title>
-    <updated>2020-08-19T08:04:55.657Z</updated>
+    <updated>2020-08-19T08:13:31.896Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lzyuuu.github.io"/>
     <link rel="self" href="https://lzyuuu.github.io/atom.xml"/>
@@ -45,13 +45,13 @@ for 状态1 in 状态1的所有取值:
 <figure data-type="image" tabindex="2"><img src="https://lzyuuu.github.io/post-images/1597822728082.png" alt="" loading="lazy"></figure>
 <p><code>nums[5] = 3</code>，既然是递增子序列，我们只要找到前面那些结尾比 3 小的子序列，然后把 3 接到最后，就可以形成一个新的递增子序列，而且这个新的子序列长度加一。当然，可能形成很多种新的子序列，但是我们只要最长的，把最长子序列的长度作为<code>dp[5]</code>的值即可。</p>
 <pre><code class="language-python">def lengthOfLIS(nums: list[int]) -&gt; int:    
-# NULL return    
-		if not nums:
-				return []    
-# dp initialize    
-		dp = [1] * len(nums)    
-# dp process    
-		for i in range(len(nums)):
+    # NULL return    
+    if not nums:
+        return []    
+    # dp initialize    
+    dp = [1] * len(nums)    
+    # dp process    
+    for i in range(len(nums)):
         for j in range(i+1):
             if nums[i] &gt; nums[j]:
                 dp[i] = max(dp[i], dp[j-1] + 1)
@@ -181,18 +181,18 @@ rose → ros</p>
 <p>为了保证每次计算<code>dp[i][j]</code>，左、下、左下三个方向的位置已经被计算出来，只能斜着遍历或者反着遍历，因此可以根据上述分析写出代码：</p>
 <pre><code class="language-python">def longestPalindromeSubseq(self, s: str) -&gt; int:    
     # dp initialize    
-		n = len(s)
-		dp = [[0 for j in range(n)] for i in range(n)]   
+    n = len(s)
+    dp = [[0 for j in range(n)] for i in range(n)]   
     # base case    
-		for i in range(n):        
-				dp[i][i] = 1    
-		# dp process    
-		for i in range(n, -1, -1):        
-				for j in range(i+1, n):            
-						if s[i] == s[j]:
-		            dp[i][j] = dp[i+1][j-1] + 2
-		        else:
-		            dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+    for i in range(n):        
+        dp[i][i] = 1    
+    # dp process    
+    for i in range(n, -1, -1):        
+        for j in range(i+1, n):            
+            if s[i] == s[j]:
+                dp[i][j] = dp[i+1][j-1] + 2
+            else:
+                dp[i][j] = max(dp[i+1][j], dp[i][j-1])
     return dp[0][n-1]
 </code></pre>
 <p>P.S. 在进行DP数组的初始化大小和处理base case的时候，经常会出现一个问题，那就是DP数组究竟应该定义为<code>[0, n-1]</code>还是<code>[0, n]</code>，也就是说DP数组的长度是<code>n</code>还是<code>n+1</code>。一般来说如果索引<code>i</code>代表的是长度、重量之类的量纲单位，那么长度应该选取<code>n+1</code>，而索引<code>i</code>代表的仅仅是字符串、序列、数组等数据结构的索引坐标，那么长度仅需要选取<code>n</code>即可。</p>
@@ -215,24 +215,24 @@ rose → ros</p>
 <p>代码如下：</p>
 <pre><code class="language-python">def longestPalindrome(s: str): -&gt; str:
     # NULL
-		if not s:
-				return &quot;&quot;
-		# dp initial
-		n = len(s)
-		dp = [[False for j in range(n)] for i in range(n)]
-		# base case
-		for i in range(n):
-				dp[i][i] = True
-		# dp process
-		maxLen, l, r = 0, 0, 0
-		for i in range(n, -1, -1):
-				for j in range(i+1, n):
-						if s[i] == s[j] and (j - i &lt;= 1 or dp[i+1][j-1]):
-								dp[i][j] = True
-								if j - i + 1 &gt; maxLen:
-										maxLen = j - i + 1
-										l, r = i, j
-		return s[l:r+1]
+    if not s:
+        return &quot;&quot;
+    # dp initial
+    n = len(s)
+    dp = [[False for j in range(n)] for i in range(n)]
+    # base case
+    for i in range(n):
+        dp[i][i] = True
+    # dp process
+    maxLen, l, r = 0, 0, 0
+    for i in range(n, -1, -1):
+        for j in range(i+1, n):
+            if s[i] == s[j] and (j - i &lt;= 1 or dp[i+1][j-1]):
+                dp[i][j] = True
+                if j - i + 1 &gt; maxLen:
+                    maxLen = j - i + 1
+                    l, r = i, j
+    return s[l:r+1]
 </code></pre>
 <h3 id="37-通配符匹配">3.7 通配符匹配</h3>
 <blockquote>

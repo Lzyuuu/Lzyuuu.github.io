@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>学习计划 | Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1597824292893">
+<link rel="shortcut icon" href="/favicon.ico?v=1597824792186">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -1734,13 +1734,13 @@ for 状态1 in 状态1的所有取值:
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1597822728082.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;code&gt;nums[5] = 3&lt;/code&gt;，既然是递增子序列，我们只要找到前面那些结尾比 3 小的子序列，然后把 3 接到最后，就可以形成一个新的递增子序列，而且这个新的子序列长度加一。当然，可能形成很多种新的子序列，但是我们只要最长的，把最长子序列的长度作为&lt;code&gt;dp[5]&lt;/code&gt;的值即可。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def lengthOfLIS(nums: list[int]) -&amp;gt; int:    
-# NULL return    
-		if not nums:
-				return []    
-# dp initialize    
-		dp = [1] * len(nums)    
-# dp process    
-		for i in range(len(nums)):
+    # NULL return    
+    if not nums:
+        return []    
+    # dp initialize    
+    dp = [1] * len(nums)    
+    # dp process    
+    for i in range(len(nums)):
         for j in range(i+1):
             if nums[i] &amp;gt; nums[j]:
                 dp[i] = max(dp[i], dp[j-1] + 1)
@@ -1870,18 +1870,18 @@ rose → ros&lt;/p&gt;
 &lt;p&gt;为了保证每次计算&lt;code&gt;dp[i][j]&lt;/code&gt;，左、下、左下三个方向的位置已经被计算出来，只能斜着遍历或者反着遍历，因此可以根据上述分析写出代码：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def longestPalindromeSubseq(self, s: str) -&amp;gt; int:    
     # dp initialize    
-		n = len(s)
-		dp = [[0 for j in range(n)] for i in range(n)]   
+    n = len(s)
+    dp = [[0 for j in range(n)] for i in range(n)]   
     # base case    
-		for i in range(n):        
-				dp[i][i] = 1    
-		# dp process    
-		for i in range(n, -1, -1):        
-				for j in range(i+1, n):            
-						if s[i] == s[j]:
-		            dp[i][j] = dp[i+1][j-1] + 2
-		        else:
-		            dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+    for i in range(n):        
+        dp[i][i] = 1    
+    # dp process    
+    for i in range(n, -1, -1):        
+        for j in range(i+1, n):            
+            if s[i] == s[j]:
+                dp[i][j] = dp[i+1][j-1] + 2
+            else:
+                dp[i][j] = max(dp[i+1][j], dp[i][j-1])
     return dp[0][n-1]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;P.S. 在进行DP数组的初始化大小和处理base case的时候，经常会出现一个问题，那就是DP数组究竟应该定义为&lt;code&gt;[0, n-1]&lt;/code&gt;还是&lt;code&gt;[0, n]&lt;/code&gt;，也就是说DP数组的长度是&lt;code&gt;n&lt;/code&gt;还是&lt;code&gt;n+1&lt;/code&gt;。一般来说如果索引&lt;code&gt;i&lt;/code&gt;代表的是长度、重量之类的量纲单位，那么长度应该选取&lt;code&gt;n+1&lt;/code&gt;，而索引&lt;code&gt;i&lt;/code&gt;代表的仅仅是字符串、序列、数组等数据结构的索引坐标，那么长度仅需要选取&lt;code&gt;n&lt;/code&gt;即可。&lt;/p&gt;
@@ -1904,24 +1904,24 @@ rose → ros&lt;/p&gt;
 &lt;p&gt;代码如下：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def longestPalindrome(s: str): -&amp;gt; str:
     # NULL
-		if not s:
-				return &amp;quot;&amp;quot;
-		# dp initial
-		n = len(s)
-		dp = [[False for j in range(n)] for i in range(n)]
-		# base case
-		for i in range(n):
-				dp[i][i] = True
-		# dp process
-		maxLen, l, r = 0, 0, 0
-		for i in range(n, -1, -1):
-				for j in range(i+1, n):
-						if s[i] == s[j] and (j - i &amp;lt;= 1 or dp[i+1][j-1]):
-								dp[i][j] = True
-								if j - i + 1 &amp;gt; maxLen:
-										maxLen = j - i + 1
-										l, r = i, j
-		return s[l:r+1]
+    if not s:
+        return &amp;quot;&amp;quot;
+    # dp initial
+    n = len(s)
+    dp = [[False for j in range(n)] for i in range(n)]
+    # base case
+    for i in range(n):
+        dp[i][i] = True
+    # dp process
+    maxLen, l, r = 0, 0, 0
+    for i in range(n, -1, -1):
+        for j in range(i+1, n):
+            if s[i] == s[j] and (j - i &amp;lt;= 1 or dp[i+1][j-1]):
+                dp[i][j] = True
+                if j - i + 1 &amp;gt; maxLen:
+                    maxLen = j - i + 1
+                    l, r = i, j
+    return s[l:r+1]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&#34;37-通配符匹配&#34;&gt;3.7 通配符匹配&lt;/h3&gt;
 &lt;blockquote&gt;
