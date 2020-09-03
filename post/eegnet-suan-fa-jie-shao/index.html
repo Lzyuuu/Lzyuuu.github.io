@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
-<title>如何闭着眼睛写对二分搜索 | Zhaoyu的博客</title>
+<title>EEGNET算法介绍 | Zhaoyu的博客</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1599103940387">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="如何闭着眼睛写对二分搜索" />
-  <meta name="keywords" content="LeetCode,Algorithm,学习笔记" />
+  <meta name="description" content="EEGNET算法介绍" />
+  <meta name="keywords" content="" />
 </head>
 
 <body>
@@ -190,8 +190,7 @@
       <div class="sidebar-body pisces" id="sidebar_body">
         
           
-            <div class="post-side-meta" id="post_side_meta">
-              
+            
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -256,198 +255,6 @@
   </div>
 
 </div>
-            </div>
-            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
-              <div class="toc-box right-motion">
-  <div class="toc-wrapper auto-number auto"
-    id="toc_wrapper">
-    <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E6%A1%86%E6%9E%B6">二分查找框架</a></li>
-<li><a href="#%E5%AF%BB%E6%89%BE%E4%B8%80%E4%B8%AA%E6%95%B0%E5%9F%BA%E6%9C%AC%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2">寻找一个数（基本二分搜索）</a></li>
-<li><a href="#%E5%AF%BB%E6%89%BE%E5%B7%A6%E8%BE%B9%E7%95%8C%E7%9A%84%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2">寻找左边界的二分搜索</a></li>
-<li><a href="#%E5%AF%BB%E6%89%BE%E5%8F%B3%E8%BE%B9%E7%95%8C%E7%9A%84%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2">寻找右边界的二分搜索</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-</div>
-
-<script>
-
-  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
-  let active = 'active-show', activeClass = 'active-current';
-  let tocWrapper = document.querySelector('#toc_wrapper');
-  let tocContent = tocWrapper.children[0];
-  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
-
-  function addTocNumber(elem, deep) {
-    if (!elem) {
-      return;
-    }
-    let prop = elem.__proto__;
-
-    if (prop === HTMLUListElement.prototype) {
-      for (let i = 0; i < elem.children.length; i++) {
-        addTocNumber(elem.children[i], deep + (i + 1) + '.');
-      }
-    } else if (prop === HTMLLIElement.prototype) {
-      // 保存li元素
-      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
-        lList.push(elem);
-      }
-      for (let i = 0; i < elem.children.length; i++) {
-        let cur = elem.children[i];
-        if (cur.__proto__ === HTMLAnchorElement.prototype) {
-          if (autoNumber) {
-            cur.text = deep + ' ' + cur.text;
-          }
-        } else if (cur.__proto__ === HTMLUListElement.prototype) {
-          addTocNumber(cur, deep);
-        }
-      }
-    }
-  }
-
-  function removeParentActiveClass() {
-    let parents = tocContent.querySelectorAll('.' + active)
-    parents.forEach(function (elem) {
-      elem.classList.remove(active);
-    });
-  }
-
-  function addActiveClass(index) {
-    if (index >= 0 && index < hList.length) {
-      lList[index].classList.add(activeClass);
-    }
-  }
-
-  function removeActiveClass(index) {
-    if (index >= 0 && index < hList.length) {
-      lList[index].classList.remove(activeClass);
-    }
-  }
-
-  function addActiveLiElemment(elem, parent) {
-    if (!elem || elem === parent) {
-      return;
-    } else {
-      if (elem.__proto__ === HTMLLIElement.prototype) {
-        elem.classList.add(active);
-      }
-      addActiveLiElemment(elem.parentElement, parent);
-    }
-  }
-
-  function showToc() {
-    if (tocWrapper) {
-      postBody = document.querySelector('#post_body');
-      for (let i = 0; i < postBody.children.length; i++) {
-        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
-          hList.push(postBody.children[i]);
-        }
-      }
-      if (tocWrapper.classList.contains('compress')) {
-        tocContent.classList.add('closed');
-      } else if (tocWrapper.classList.contains('no_compress')) {
-        tocContent.classList.add('expanded');
-      } else {
-        if (hList.length > 10) {
-          active = 'active-hidden'
-          tocContent.classList.add('closed');
-        } else {
-          tocContent.classList.add('expanded');
-        }
-      }
-    }
-  }
-
-  (function () {
-    // 处理不是从#一级标题开始目录
-    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
-      let con = tocContent.children[0].children[0];
-      tocContent.innerHTML = con.innerHTML;
-    }
-    let markdownItTOC = document.querySelector('.markdownIt-TOC');
-    let innerHeight = window.innerHeight;
-    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
-    addTocNumber(tocContent, '');
-  })();
-
-  document.addEventListener('scroll', function (e) {
-    if (lList.length <= 0) {
-      return;
-    }
-    let scrollTop = document.scrollingElement.scrollTop + 10;
-    let dir;
-
-    if (lastTop - scrollTop > 0) {
-      dir = 'up';
-    } else {
-      dir = 'down';
-    }
-
-    lastTop = scrollTop;
-    if (scrollTop <= 0) {
-      if (lastIndex >= 0 && lastIndex < hList.length) {
-        lList[lastIndex].classList.remove(activeClass);
-      }
-      return;
-    }
-
-    let current = 0, hasFind = false;
-    for (let i = 0; i < hList.length; i++) {
-      if (hList[i].offsetTop > scrollTop) {
-        current = i;
-        hasFind = true;
-        break;
-      }
-    }
-    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
-      current = hList.length - 1;
-    } else {
-      current--;
-    }
-    if (dir === 'down') {
-      if (current > lastIndex) {
-        addActiveClass(current);
-        removeActiveClass(lastIndex)
-        lastIndex = current;
-        removeParentActiveClass();
-        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
-      }
-    } else {
-      if (current < lastIndex) {
-        addActiveClass(current);
-        removeActiveClass(lastIndex);
-        lastIndex = current;
-        removeParentActiveClass();
-        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
-      }
-    }
-  });
-
-
-  window.addEventListener('load', function () {
-    showToc();
-    document.querySelector('#sidebar').style = 'display: block;';
-    tocWrapper.classList.add('toc-active');
-    setTimeout(function () {
-      if ("createEvent" in document) {
-        let evt = document.createEvent("HTMLEvents");
-        evt.initEvent("scroll", false, true);
-        document.dispatchEvent(evt);
-      }
-      else {
-        document.fireEvent("scroll");
-      }
-    }, 500)
-  })
-
-</script>
-            </div>
           
         
       </div>
@@ -535,8 +342,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/">
-      如何闭着眼睛写对二分搜索
+    <a class="post-title-link" href="https://lzyuuu.github.io/post/eegnet-suan-fa-jie-shao/">
+      EEGNET算法介绍
     </a>
   </h1>
   <div class="post-meta">
@@ -544,48 +351,23 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-07-27 22:01:32">2020-07-27</span>
+      <span class="publish-time" data-t="2020-09-03 11:25:27">2020-09-03</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
-      <i class="fa fa-folder-o"></i>
-      <span class="pc-show language" data-lan="category-in">分类于</span>
-      
-      
-      <a href="https://lzyuuu.github.io/tag/dHlnhZdRd/">
-        <span>LeetCode</span>
-      </a>、
-      
-      
-      
-      <a href="https://lzyuuu.github.io/tag/MAbQdtsjGX/">
-        <span>Algorithm</span>
-      </a>、
-      
-      
-      
-      <a href="https://lzyuuu.github.io/tag/GfkdZOjF5/">
-        <span>学习笔记</span>
-      </a>
-      
-      
-    </span>
-    <span class="post-meta-divider">|</span>
-    
-    <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>9<span class="language" data-lan="minute">分钟</span></span>
+      <span>3<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>1984<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>786<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
     
     
-    <span id="/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/" data-flag-title="如何闭着眼睛写对二分搜索" class="meta-item pc-show leancloud_visitors">
+    <span id="/post/eegnet-suan-fa-jie-shao/" data-flag-title="EEGNET算法介绍" class="meta-item pc-show leancloud_visitors">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-eye"></i>
       <span><span class="language" data-lan="view">浏览量</span>：<span class="leancloud-visitors-count"></span></span>
@@ -594,134 +376,21 @@
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <blockquote>
-<p>本文参考自《labuladong的算法小抄》</p>
-</blockquote>
-<p>二分查找并不简单，Knuth 大佬（发明 KMP 算法的那位）都说二分查找：<strong>思路很简单，细节是魔鬼</strong>。很多人喜欢拿整型溢出的 bug 说事儿，但是二分查找真正的坑根本就不是那个细节问题，而是在于到底要给 <code>mid</code> 加一还是减一，while 里到底用<code>&lt;=</code>还是<code>&lt;</code> 。本文就来探究几个最常用的二分查找场景：寻找一个数、寻找左侧边界、寻找右侧边界。而且，我们就是要深入细节，比如不等号是否应该带等号，mid 是否应该加一等等。分析这些细节的差异以及出现这些差异的原因，保证你能灵活准确地写出正确的二分查找算法。</p>
+              <p>脑机接口(BCI)使用神经活动作为控制信号，实现与计算机的直接通信。这种神经信号通常是从各种研究透彻的脑电图(EEG)信号中挑选出来的。卷积神经网络(CNN)主要用来自动特征提取和分类，其在计算机视觉和语音识别领域中的使用已经很广泛。CNN已成功应用于基于EEG的BCI；但是，CNN主要应用于单个BCI范式，在其他范式中的使用比较少。最近一篇论文提出了一个基于深度可分离卷积的EEGNet，取得了较好的效果，因此本文将具体介绍该论文的成果。</p>
 <!-- more -->
-<h2 id="二分查找框架">二分查找框架</h2>
-<pre><code class="language-python">def binarySearch(nums: List[int], target: int) -&gt; int:
-    left, right = 0, ...
-    while ... :
-        mid = left + (right - left) / 2
-        if nums[mid] == target:
-            # ...
-        elif nums[mid] &lt; target:
-            # left = ...
-        elif nums[mid] &gt; target:
-            # right = ...
-    return ...
-</code></pre>
-<p><strong>分析二分查找的一个技巧是：不要出现 else，而是把所有情况用 else if 写清楚，这样可以清楚地展现所有细节。</strong></p>
-<p>其中 <code>...</code> 标记的部分，就是可能出现细节问题的地方，当你见到一个二分查找的代码时，首先注意这几个地方。后文用实例分析这些地方能有什么样的变化。另外声明一下，计算 mid 时需要防止溢出，代码中 <code>left + (right - left) / 2</code> 就和 <code>(left + right) / 2</code> 的结果相同，但是有效防止了 <code>left</code> 和 <code>right</code> 太大直接相加导致溢出。</p>
-<h2 id="寻找一个数基本二分搜索">寻找一个数（基本二分搜索）</h2>
-<p>最简单的场景，在区间内搜索一个数，如果存在返回其索引，否则返回-1。</p>
-<pre><code class="language-python">def binarySearch(nums: List[int], target: int) -&gt; int:
-    left, right = 0, len(nums) - 1	# 注意
-    while left &lt;= right:
-        mid = left + (right - left) // 2
-        if nums[mid] == target:
-            return mid
-        elif nums[mid] &lt; target:
-            left = mid + 1
-        elif nums[mid] &gt; target:
-            right = mid - 1
-    return -1
-</code></pre>
-<p><strong>0、如何判断搜索区间是左闭右开还是左闭右闭？</strong></p>
-<p>答：从<code>left</code>和<code>right</code>的初始化就能判断搜索区间的形式，如果<code>right</code>的初始值是<code>len(nums) - 1</code>，也就意味着<code>right</code>初始值代表的是最后一个元素的索引，因此搜索区间是左闭右闭<code>[left, right]</code>的，该区间完全是由数组索引所限定的，取值也无法超出数组索引。</p>
-<p>如果<code>right</code>的初始值是<code>len(nums)</code>，那么就意味着搜索区间变成<code>[left, right)</code>，也就是左闭右开，因为此时<code>right = len(nums)</code>是越界的</p>
-<p><strong>1、为什么 while 循环的条件中是 <code>&lt;=</code>，而不是 <code>&lt;</code></strong>？</p>
-<p>答：以上算法在什么时候需要停止搜索？两种停止条件，第一种是找到了目标值：</p>
-<pre><code class="language-python">if nums[mid] == target:
-    return mid
-</code></pre>
-<p>第二种是找不到目标值，这时候需要while循环终止，然后返回-1。那么这里问题就在于while循环的终止条件是什么？容易知道，当搜索区间为空时应该终止。那么终止条件到底是<code>left &lt;= right</code>还是<code>left &lt; right</code>呢？我们分开来考虑。首先，我们已经知道上述代码的搜索区间是左闭右闭区间。</p>
-<p>当终止条件为<code>while left &lt;= right</code>时，<code>left == right + 1</code>时while停止循环，此时的区间为<code>[right+1, right]</code>，代入一个具体的数字则是<code>[3, 2]</code>，这时候区间是空的，因此循环终止条件是正确的。</p>
-<p>当终止条件为<code>while left &lt; right</code>时，<code>left == right</code>时while停止循环，那么此时的区间为<code>[right, right]</code>，代入具体数字则是<code>[2, 2]</code>，那么可以发现区间非空，2这个数还没进行判断就已经停止循环了，因此循环终止条件是错误的。</p>
-<p><strong>2、为什么 <code>left = mid + 1</code>，<code>right = mid - 1</code>？我看有的代码是 <code>right = mid</code> 或者 <code>left = mid</code>，没有这些加加减减，到底怎么回事，怎么判断？</strong></p>
-<p>答：这也是二分查找的一个难点，不过只要你能理解前面的内容，就能够很容易判断。</p>
-<p>刚才明确了「搜索区间」这个概念，而且本算法的搜索区间是两端都闭的，即 <code>[left, right]</code>。那么当我们发现索引 <code>mid</code> 不是要找的 <code>target</code> 时，下一步应该去搜索哪里呢？</p>
-<p>当然是去搜索 <code>[left, mid-1]</code> 或者 <code>[mid+1, right]</code> 对不对？因为 <code>mid</code> 已经搜索过，应该从搜索区间中去除。</p>
-<h2 id="寻找左边界的二分搜索">寻找左边界的二分搜索</h2>
-<pre><code class="language-python">def left_bound(nums: list, target: int) -&gt; int:
-  	if not nums:
-        return -1
-    left, right = 0, len(nums)	# 注意
-    while left &lt; right:	  		# 注意
-        mid = left + (right - left) // 2
-        if num[mid] == target:
-            right = mid
-        elif num[mid] &gt; target:
-            right = mid
-        elif num[mid] &lt; target:
-            left = mid + 1		# 注意
-    return left
-</code></pre>
-<p><strong>1、为什么 while 循环的条件中是 <code>&lt;</code>，而不是 <code>&lt;=</code>？为什么 <code>left = mid + 1</code>，<code>right = mid</code>？这和之前的算法不一样？</strong></p>
-<p>答：类似与基本二分搜索法的分析，由于<code>left</code>和<code>right</code>初始值选择的是<code>0</code>和<code>len(nums)</code>，因此搜索区间是左闭右开区间<code>[left, right)</code>，其中<code>while (left &lt; right)</code>循环的终止条件则是<code>left == right</code>，此时搜索区间为<code>[left, left)</code>，即为空，循环条件正确。</p>
-<p>PS. 这里选取左闭右开区间的理由是，对于搜索左右边界的二分查找，使用左闭右开区间的写法较为普遍，因此这里拿这种写法来举例。</p>
-<p>同时由于搜索区间为左闭右开区间，因此当<code>nums[mid]</code>被检测后，将会以<code>mid</code>为中心分割为两个区间，<code>[left, mid)</code>和<code>[mid + 1, right)</code>。因此选取<code>left = mid + 1</code>，<code>right = mid</code>也就不难理解了。</p>
-<p><strong>2、该算法是如何做到搜索左侧边界的？</strong></p>
-<p>答：关键是对于<code>num[mid] == target</code>的情况的处理：</p>
-<pre><code class="language-python">if num[mid] == target:
-	# 搜索左侧边界
-    right = mid
-</code></pre>
-<p>可见，找到 target 时不要立即返回，而是缩小「搜索区间」的上界 <code>right</code>，在区间 <code>[left, mid)</code> 中继续搜索，即不断向左收缩，达到锁定左侧边界的目的。</p>
-<p><strong>3、能不能想办法把<code>right</code> 变成 <code>len(nums) - 1</code>，也就是继续使用两边都闭的「搜索区间」？这样就可以和第一种二分搜索在某种程度上统一起来了。</strong></p>
-<p>答：当然可以，只要你明白了「搜索区间」这个概念，就能有效避免漏掉元素，随便你怎么改都行。下面我们严格根据逻辑来修改，由于需要让搜索区间为左闭右闭，因此<code>right</code>应该初始化为<code>len(nums) - 1</code>，while循环停止条件为<code>left == right + 1</code>，因此应该使用<code>&lt;=</code>。</p>
-<pre><code class="language-python">def left_bound(nums: list, target: int) -&gt; int:
-    left, right = 0, len(nums) - 1
-    while left &lt;= right:
-        mid = left + (right - left) // 2
-</code></pre>
-<p>因为搜索区间是两端都闭的，且现在是搜索左侧边界，所以 <code>left</code> 和 <code>right</code> 的更新逻辑如下：</p>
-<pre><code class="language-python">if nums[mid] &lt; target:
-    left = mid + 1
-elif nums[mid] &gt; target:
-    right = mid - 1
-elif nums[mid] == target:
-    right = mid - 1
-</code></pre>
-<p>由于 while 的退出条件是 <code>left == right + 1</code>，所以当 <code>target</code> 比 <code>nums</code> 中所有元素都大时，会存在以下情况使得索引越界：</p>
-<figure data-type="image" tabindex="1"><img src="https://gblobscdn.gitbook.com/assets%2F-LrtQOWSnDdXhp3kYN4k%2Fsync%2F6865c24b1317f1f65f02348fe622c829c71219c1.jpg" alt="img" loading="lazy"></figure>
-<p>因此，最后返回结果的代码应该检查越界情况：</p>
-<pre><code class="language-python">if left &gt;= len(nums) or nums[left] != target:
-    return -1
-return left
-</code></pre>
-<p>至此，整个算法就写完了，完整代码如下：</p>
-<pre><code class="language-python">def left_bound(nums: list, target: int) -&gt; int:
-    left, right = 0, len(nums) - 1
-    while left &lt;= right:
-        mid = left + (right - left) // 2
-        if nums[mid] &lt; target:
-    		left = mid + 1
-		elif nums[mid] &gt; target:
-            right = mid - 1
-        elif nums[mid] == target:
-            right = mid - 1
-   	if left &gt;= len(nums) or nums[left] != target:
-        return -1
-    return left
-</code></pre>
-<h2 id="寻找右边界的二分搜索">寻找右边界的二分搜索</h2>
-<p>这里类似左边界的二分搜索，我们可以直接写出左闭右闭的完整代码：</p>
-<pre><code class="language-python">def right_bound(nums: list, target: int) -&gt; int:
-    left, right = 0, len(nums) - 1
-    while left &lt;= right:
-        mid = left + (right - left) // 2
-        if nums[mid] &gt; target:
-            right = mid - 1
-        elif nums[mid] &lt; target:
-            left = mid + 1
-        elif nums[mid] == target:
-            left = mid + 1
-    if right &lt; 0 or nums[right] != target:
-        return -1
-    return right
-</code></pre>
+<blockquote>
+<p>论文名称《EEGNet: A Compact Convolutional Neural Network for EEG-based Brain-Computer Interfaces》</p>
+</blockquote>
+<p>论文作者提出是否可以设计一个CNN架构来准确分类来自不同BCI范式的EEG信号，同时尽可能地紧凑(定义为模型中的参数数量)。该论文介绍了EEGNet，这是一种用于基于EEG的BCI的紧凑型卷积神经网络。论文介绍了使用深度和可分离卷积来构建特定于EEG的模型，该模型封装了脑机接口中常见的EEG特征提取概念。论文通过四种BCI范式(P300视觉诱发电位、错误相关负性反应(ERN)、运动相关皮层电位(MRCP)和感觉运动节律(SMR))，将EEGNet在主体内和跨主体分类方面与目前最先进的方法进行了比较。结果显示，在训练数据有限的情况下，EEGNet比参考算法具有更强的泛化能力和更高的性能。同时论文也证明了EEGNet可以有效地推广到ERP和基于振荡的BCI。</p>
+<figure data-type="image" tabindex="1"><img src="https://lzyuuu.github.io/post-images/1599103639608.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://lzyuuu.github.io/post-images/1599103643636.png" alt="" loading="lazy"></figure>
+<p>该网络分为两个block共三个卷积层：</p>
+<p>第一层卷积层为64维的卷积层；</p>
+<p>第二层卷积层为深度卷积层，该层的目的是减少了可训练参数的拟合数量，更重要的是，对于EEG信号，此操作提供了一种学习每个时间滤波器的空间滤波器的直接方法，从而可以高效提取频率特定的空间滤波器；</p>
+<p>第三层卷积层为可分离卷积层，可分离卷积的主要好处是（1）减少要拟合的参数的数量，以及（2）通过首先学习分别汇总每个特征图的内核，然后优化合并输出，显式解耦特征图内部和整个特征图之间的关系。 当用于EEG时，此操作将使学习如何及时汇总各个特征图（深度卷积）与如何最佳地组合特征图（逐点卷积）分开。 该操作对于EEG信号也特别有用，因为不同的特征图可能代表信息的不同时间尺度的数据。</p>
+<p>在完成每次卷积后，均使用BatchNormalization进行标准化以及加入了Dropout层，以降低过拟合，同时激活函数均使用ELU函数。</p>
+<p>网络是基于TensorFlow的Keras框架进行搭建的，代码如下：</p>
+<figure data-type="image" tabindex="3"><img src="https://lzyuuu.github.io/post-images/1599103649219.png" alt="" loading="lazy"></figure>
 
             </div>
             
@@ -734,7 +403,7 @@ return left
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/" title="如何闭着眼睛写对二分搜索">https://lzyuuu.github.io/post/ru-he-bi-zhao-yan-jing-xie-dui-er-fen-sou-suo/</a>
+      <a href="https://lzyuuu.github.io/post/eegnet-suan-fa-jie-shao/" title="EEGNET算法介绍">https://lzyuuu.github.io/post/eegnet-suan-fa-jie-shao/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -743,25 +412,15 @@ return left
   </ul>
   <div class="tags">
     
-      <a href="https://lzyuuu.github.io/tag/dHlnhZdRd/"># LeetCode</a>
-    
-      <a href="https://lzyuuu.github.io/tag/MAbQdtsjGX/"># Algorithm</a>
-    
-      <a href="https://lzyuuu.github.io/tag/GfkdZOjF5/"># 学习笔记</a>
-    
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="学习计划" href="https://lzyuuu.github.io/post/xue-xi-ji-hua/">学习计划</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="学习计划" href="https://lzyuuu.github.io/post/xue-xi-ji-hua/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="SVM in primal 算法" href="https://lzyuuu.github.io/post/svm-in-primal-suan-fa/">SVM in primal 算法</a>
-        <a class="nav-mobile-next" title="SVM in primal 算法" href="https://lzyuuu.github.io/post/svm-in-primal-suan-fa/">下一篇</a>
+        <a class="nav-pc-next" title="子序列（子串）问题笔记" href="https://lzyuuu.github.io/post/zi-xu-lie-zi-chuan-wen-ti-bi-ji/">子序列（子串）问题笔记</a>
+        <a class="nav-mobile-next" title="子序列（子串）问题笔记" href="https://lzyuuu.github.io/post/zi-xu-lie-zi-chuan-wen-ti-bi-ji/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

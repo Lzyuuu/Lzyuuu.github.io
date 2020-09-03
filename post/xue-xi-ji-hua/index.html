@@ -9,7 +9,7 @@
 <meta name="description" content="猫狗鱼的幸福生活">
 <meta name="theme-color" content="#000">
 <title>学习计划 | Zhaoyu的博客</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1598365830805">
+<link rel="shortcut icon" href="/favicon.ico?v=1599103940387">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -213,7 +213,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">5</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1702,6 +1702,26 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/eegnet-suan-fa-jie-shao/"" data-c="
+          &lt;p&gt;脑机接口(BCI)使用神经活动作为控制信号，实现与计算机的直接通信。这种神经信号通常是从各种研究透彻的脑电图(EEG)信号中挑选出来的。卷积神经网络(CNN)主要用来自动特征提取和分类，其在计算机视觉和语音识别领域中的使用已经很广泛。CNN已成功应用于基于EEG的BCI；但是，CNN主要应用于单个BCI范式，在其他范式中的使用比较少。最近一篇论文提出了一个基于深度可分离卷积的EEGNet，取得了较好的效果，因此本文将具体介绍该论文的成果。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;blockquote&gt;
+&lt;p&gt;论文名称《EEGNet: A Compact Convolutional Neural Network for EEG-based Brain-Computer Interfaces》&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;论文作者提出是否可以设计一个CNN架构来准确分类来自不同BCI范式的EEG信号，同时尽可能地紧凑(定义为模型中的参数数量)。该论文介绍了EEGNet，这是一种用于基于EEG的BCI的紧凑型卷积神经网络。论文介绍了使用深度和可分离卷积来构建特定于EEG的模型，该模型封装了脑机接口中常见的EEG特征提取概念。论文通过四种BCI范式(P300视觉诱发电位、错误相关负性反应(ERN)、运动相关皮层电位(MRCP)和感觉运动节律(SMR))，将EEGNet在主体内和跨主体分类方面与目前最先进的方法进行了比较。结果显示，在训练数据有限的情况下，EEGNet比参考算法具有更强的泛化能力和更高的性能。同时论文也证明了EEGNet可以有效地推广到ERP和基于振荡的BCI。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1599103639608.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1599103643636.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;该网络分为两个block共三个卷积层：&lt;/p&gt;
+&lt;p&gt;第一层卷积层为64维的卷积层；&lt;/p&gt;
+&lt;p&gt;第二层卷积层为深度卷积层，该层的目的是减少了可训练参数的拟合数量，更重要的是，对于EEG信号，此操作提供了一种学习每个时间滤波器的空间滤波器的直接方法，从而可以高效提取频率特定的空间滤波器；&lt;/p&gt;
+&lt;p&gt;第三层卷积层为可分离卷积层，可分离卷积的主要好处是（1）减少要拟合的参数的数量，以及（2）通过首先学习分别汇总每个特征图的内核，然后优化合并输出，显式解耦特征图内部和整个特征图之间的关系。 当用于EEG时，此操作将使学习如何及时汇总各个特征图（深度卷积）与如何最佳地组合特征图（逐点卷积）分开。 该操作对于EEG信号也特别有用，因为不同的特征图可能代表信息的不同时间尺度的数据。&lt;/p&gt;
+&lt;p&gt;在完成每次卷积后，均使用BatchNormalization进行标准化以及加入了Dropout层，以降低过拟合，同时激活函数均使用ELU函数。&lt;/p&gt;
+&lt;p&gt;网络是基于TensorFlow的Keras框架进行搭建的，代码如下：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://lzyuuu.github.io/post-images/1599103649219.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">EEGNET算法介绍</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://lzyuuu.github.io/post/zi-xu-lie-zi-chuan-wen-ti-bi-ji/"" data-c="
